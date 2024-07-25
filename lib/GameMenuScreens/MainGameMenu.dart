@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:waterdropdash/GameMenuScreens/DailyChallengePage.dart';
 import 'package:waterdropdash/GameMenuScreens/GameLevelScreen.dart';
+import 'package:waterdropdash/GameMenuScreens/GameSettingsScreen.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
+import 'package:waterdropdash/TipsScreens/TipScreen.dart';
 
 class GameMenuScreen extends StatelessWidget {
   @override
@@ -24,7 +28,7 @@ class GameMenuScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Image.asset("assets/images/bottle.png"),
+                      Image.asset("assets/images/water.png"),
                       Text("100" , style: TextStyle(color: Colors.white),)
                     ],
                   ),
@@ -61,7 +65,11 @@ class GameMenuScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(child: Image.asset(("assets/TipS7.png"), height: 75,)),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DailyChallengePage(),));
+                },
+                child: Center(child: Image.asset(("assets/TipS7.png"), height: 75,))),
             ],
           ),
           SizedBox(height: 40,),
@@ -71,22 +79,52 @@ class GameMenuScreen extends StatelessWidget {
             children: [
               InkWell(
                 onTap: (){
-                  print("hi");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen( ),));
                 },
                 child: Center(child: Image.asset(("assets/TipS5.png"), height: 75,))),
               InkWell(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => GameLevelScreen( ),));
                 },
-                child: Center(child: Image.asset(("assets/TipS9.png"), height: 100,))),
-              Center(child: Image.asset(("assets/TipS6.png"), height: 75,)),
+                child: Center(child: Image.asset(("assets/images/PlayBtn.png"), height: 100,))),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen( ),));
+                },
+                child: Center(child: Image.asset(("assets/TipS6.png"), height: 75,))),
             ],
           ),
           SizedBox(height: 40,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               Center(child: Image.asset(("assets/TipS8.png"), height: 75,)),
+               InkWell(
+                onTap: (){
+                    showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Exit"),
+        content: Text("Do you want to exit?"),
+        actions: [
+          TextButton(
+            child: Text("No"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+          ),
+          TextButton(
+            child: Text("Yes"),
+            onPressed: () {
+              SystemNavigator.pop(); // Exit the app
+            },
+          ),
+        ],
+      );
+    },
+  );
+                },
+                child: Center(child: Image.asset(("assets/TipS8.png"), height: 75,))),
             ],
           )
         ],),

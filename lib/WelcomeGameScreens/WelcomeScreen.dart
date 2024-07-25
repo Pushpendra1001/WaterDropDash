@@ -35,14 +35,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Container(
-          decoration: BoxDecoration(
-          color: Colors.blue,
-            shape: BoxShape.circle,
-          ),
-          child: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Icon(Icons.arrow_back_ios, color: Colors.white))),
+        
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,

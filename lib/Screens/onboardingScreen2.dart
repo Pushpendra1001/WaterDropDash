@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:waterdropdash/Screens/RegisterScreen.dart';
 
 class Onboardingscreen2 extends StatelessWidget {
   const Onboardingscreen2({super.key});
@@ -18,14 +19,17 @@ class Onboardingscreen2 extends StatelessWidget {
               child: Text("Are you aware that unhealthy beverages cause tooth decay?", style: TextStyle(fontSize: 32 ,),),
               ),
               SizedBox(height: 20,),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(0xff04344D),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text("Get Started", style: TextStyle(fontSize: 24 , color: Colors.white),),
+              InkWell(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen())),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xff04344D),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text("Get Started", style: TextStyle(fontSize: 24 , color: Colors.white),),
+                  ),
                 ),
               )
           ],

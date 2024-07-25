@@ -21,8 +21,8 @@ class TipScreenState extends State<TipScreen> {
     "assets/TipS6.png",
     "assets/TipS7.png",
     "assets/TipS8.png",
-    "assets/TipS9.png",
-    // Add more image paths here
+    "assets/images/PlayBtn.png",
+    
   ];
   final List<String> _TipMImages = [
     "assets/TipM1.png",

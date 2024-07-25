@@ -10,6 +10,10 @@ class Levelgoalscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        
+      ),
       backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,7 +33,7 @@ class Levelgoalscreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Image.asset("assets/images/bottle.png"),
+                      Image.asset("assets/images/water.png"),
                       Text("100" , style: TextStyle(color: Colors.white),)
                     ],
                   ),
@@ -64,7 +68,7 @@ class Levelgoalscreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("30" , style: TextStyle(fontSize: 64, ),),
+                Text(waterBottleTarget.toString() , style: TextStyle(fontSize: 64, ),),
                 Image.asset("assets/images/water.png"),
               ],
             ),

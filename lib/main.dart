@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:waterdropdash/MainGameScreens/MainGame.dart';
 import 'package:waterdropdash/Screens/RegisterScreen.dart';
+import 'package:waterdropdash/Screens/SplashScreen.dart';
 import 'package:waterdropdash/Screens/onboardingScreen.dart';
 
 
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
 
   void _playBackgroundMusic() async {
     await _audioPlayer.setReleaseMode(ReleaseMode.loop);
-    await _audioPlayer.play(AssetSource('assets/background_music.mp3'));
+    await _audioPlayer.play(AssetSource('m2.mp3'));
   }
 
   @override
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: RegisterScreen(),
+        body: SplashScreen(),
     
   )
       ,

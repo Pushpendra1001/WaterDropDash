@@ -12,33 +12,40 @@ class Gameplayingscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
        body: GameWidget<DashGame>(
-      game: DashGame(currentLevel: currentLevel , waterBottleTarget: waterBottleTarget),
-      overlayBuilderMap: {
-        'gameOver': (context, game) => Center(
-          child: Container(
-            color: Colors.black.withOpacity(0.5),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Game Over',
-                  style: TextStyle(fontSize: 48, color: Colors.white),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  child: Text('Try Again'),
-                  onPressed: () {
-                    game.overlays.remove('gameOver');
-                    game.reset();
-                  },
-                ),
-              ],
-            ),
+  game: DashGame(currentLevel: currentLevel, waterBottleTarget: waterBottleTarget),
+  overlayBuilderMap: {
+    'gameOver': (context, game) => Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Game Over', style: TextStyle(fontSize: 48, color: Colors.white)),
+          ElevatedButton(
+            child: Text('Try Again'),
+            onPressed: () {
+              game.reset();
+              game.overlays.remove('gameOver');
+            },
           ),
-        ),
-      },
-      
+        ],
+      ),
     ),
-    );
+    'levelComplete': (context, game) => Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Level Complete!', style: TextStyle(fontSize: 48, color: Colors.white)),
+          ElevatedButton(
+            child: Text('Next Level'),
+            onPressed: () {
+              // Implement level progression here
+              game.overlays.remove('levelComplete');
+              game.reset();
+            },
+          ),
+        ],
+      ),
+    ),
+  },
+) );
   }
 }
