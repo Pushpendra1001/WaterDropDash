@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:waterdropdash/provider/soundProvider.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -47,13 +49,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SwitchListTile(
-              title: Text('Sound'),
-              value: soundEnabled,
-              onChanged: (bool value) {
-                setState(() {
-                  soundEnabled = value;
-                });
+          Consumer<SoundProvider>(
+              builder: (context, soundProvider, child) {
+                return SwitchListTile(
+                  title: Text('Sound'),
+                  value: soundProvider.soundEnabled,
+                  onChanged: (bool value) {
+                    soundProvider.toggleSound();
+                  },
+                );
               },
             ),
             SizedBox(height: 20),

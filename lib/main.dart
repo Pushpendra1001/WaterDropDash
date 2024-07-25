@@ -1,17 +1,25 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterdropdash/GameMenuScreens/MainGameMenu.dart';
 import 'package:waterdropdash/MainGameScreens/MainGame.dart';
 import 'package:waterdropdash/Screens/RegisterScreen.dart';
 import 'package:waterdropdash/Screens/SplashScreen.dart';
 import 'package:waterdropdash/Screens/onboardingScreen.dart';
+import 'package:waterdropdash/provider/soundProvider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => SoundProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
+
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -21,21 +29,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late AudioPlayer _audioPlayer;
   bool _userReachedMainGameMenu = false;
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _audioPlayer = AudioPlayer();
-    _playBackgroundMusic();
     _checkIfUserReachedMainGameMenu();
+    _playBackgroundMusic();
   }
 
-  void _playBackgroundMusic() async {
-    await _audioPlayer.setReleaseMode(ReleaseMode.loop);
-    await _audioPlayer.play(AssetSource('m2.mp3'));
+   void _playBackgroundMusic() {
+    final soundProvider = Provider.of<SoundProvider>(context, listen: false);
+    soundProvider.soundEnabled;
   }
 
   Future<void> _checkIfUserReachedMainGameMenu() async {
@@ -45,12 +51,6 @@ class _MyAppState extends State<MyApp> {
       _userReachedMainGameMenu = reachedMainGameMenu;
       _isLoading = false;
     });
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
   }
 
   @override
