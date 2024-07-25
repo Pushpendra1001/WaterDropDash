@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterdropdash/GameMenuScreens/DailyChallengePage.dart';
 import 'package:waterdropdash/GameMenuScreens/GameLevelScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/GameSettingsScreen.dart';
@@ -9,6 +10,7 @@ import 'package:waterdropdash/TipsScreens/TipScreen.dart';
 class GameMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+     _setUserReachedMainGameMenu();
     return Scaffold(
    backgroundColor: Colors.white,
       body: SafeArea(
@@ -130,5 +132,10 @@ class GameMenuScreen extends StatelessWidget {
         ],),
       )
     );
+  }
+
+   Future<void> _setUserReachedMainGameMenu() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('userReachedMainGameMenu', true);
   }
 }
