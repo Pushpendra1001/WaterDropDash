@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 
 class Levelgoalscreen extends StatelessWidget {
-  const Levelgoalscreen({super.key});
+   Levelgoalscreen({super.key , required this.currentLevel , required this.waterBottleTarget});
+
+  int currentLevel ;
+  int waterBottleTarget ;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +76,7 @@ Padding(
   child: Text("Tip : Drink water to stay hydrated and healthy" , style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold ),),
 ),
           InkWell(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Gameplayingscreen())),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Gameplayingscreen(currentLevel: currentLevel ,  waterBottleTarget:  waterBottleTarget,))),
             child: Container(
               
               child: Image.asset("assets/images/PlayBtn.png"),

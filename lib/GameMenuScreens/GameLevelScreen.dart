@@ -105,7 +105,7 @@ class GameLevelScreen extends StatelessWidget {
                           ),
                         );
                       } else {
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => Levelgoalscreen(),));
+                       Navigator.push(context, MaterialPageRoute(builder: (context) => Levelgoalscreen(currentLevel: index, waterBottleTarget: index*10,),));
                       }
                     },
                     child: Container(

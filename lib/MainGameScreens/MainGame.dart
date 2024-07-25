@@ -12,10 +12,22 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
   late Player player;
   late ParallaxComponent background;
   late TextComponent scoreDisplay;
+  late TextComponent taskDisplay;
+  late TextComponent livesDisplay;
   int score = 0;
+  int currentLevel;
+  int waterBottleTarget;
+  int waterBottlesCollected = 0;
+  int lives = 3;
+  double gameSpeed = 1.0;
+  bool isGamePaused = false;
   final Random random = Random();
 
   static const List<double> lanes = [-100, 0, 100];
+
+  DashGame({required this.currentLevel, required this.waterBottleTarget}) {
+    gameSpeed = 1.0 + (currentLevel * 0.1); // Increase speed with level
+  }
 
   void reset() {
   score = 0;
@@ -38,6 +50,17 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
 
     );
     add(background);
+
+    taskDisplay = TextComponent(
+    text: 'Water: 0 / $waterBottleTarget',
+    scale: NotifyingVector2(1, 2),
+    position: Vector2(20, 50),
+    anchor: Anchor.topLeft,
+    textRenderer: TextPaint(
+      style: const TextStyle(color: Colors.white, fontSize: 24),
+    ),
+  );
+  add(taskDisplay);
 
     // Add player
     player = Player();
@@ -78,11 +101,16 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
     add(energyBottleSpawner);
   }
 
-  @override
-  void update(double dt) {
-    super.update(dt);
-    scoreDisplay.text = 'Score: $score';
+ @override
+void update(double dt) {
+  super.update(dt);
+  scoreDisplay.text = 'Score: $score';
+  taskDisplay.text = 'Water: $waterBottlesCollected / $waterBottleTarget';
+
+  if (waterBottlesCollected >= waterBottleTarget) {
+    overlays.add('levelComplete');
   }
+}
 
 @override
 void onTapDown(TapDownInfo info) {
@@ -143,6 +171,8 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameRef<DashGam
 class Obstacle extends SpriteComponent with CollisionCallbacks, HasGameRef<DashGame> {
   static const double _speed = 300;
 
+  
+
   Obstacle() : super(size: Vector2(48, 48));
 
   @override
@@ -157,10 +187,10 @@ class Obstacle extends SpriteComponent with CollisionCallbacks, HasGameRef<DashG
     add(RectangleHitbox());
   }
 
-  @override
+    @override
   void update(double dt) {
     super.update(dt);
-    position.y += _speed * dt;
+    position.y += 300 * gameRef.gameSpeed * dt;
 
     if (position.y > gameRef.size.y + size.y) {
       removeFromParent();
@@ -188,7 +218,7 @@ class EnergyBottle extends SpriteComponent with CollisionCallbacks, HasGameRef<D
   @override
   void update(double dt) {
     super.update(dt);
-    position.y += _speed * dt;
+    position.y += 250 * gameRef.gameSpeed * dt;
 
     if (position.y > gameRef.size.y + size.y) {
       removeFromParent();
