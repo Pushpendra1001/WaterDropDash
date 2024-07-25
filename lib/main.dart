@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:waterdropdash/MainGameScreens/MainGame.dart';
+import 'package:waterdropdash/Screens/RegisterScreen.dart';
+import 'package:waterdropdash/Screens/onboardingScreen.dart';
 
 
 void main() {
@@ -48,33 +50,8 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: GameWidget<DashGame>(
-      game: DashGame(),
-      overlayBuilderMap: {
-        'gameOver': (context, game) => Center(
-          child: Container(
-            color: Colors.black.withOpacity(0.5),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Game Over',
-                  style: TextStyle(fontSize: 48, color: Colors.white),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  child: Text('Try Again'),
-                  onPressed: () {
-                    game.overlays.remove('gameOver');
-                    game.reset();
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      },
-    ),
+        body: RegisterScreen(),
+    
   )
       ,
     );

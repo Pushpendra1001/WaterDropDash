@@ -28,8 +28,6 @@ class Onboardingscreen2 extends StatelessWidget {
                   child: Text("Get Started", style: TextStyle(fontSize: 24 , color: Colors.white),),
                 ),
               )
-
-            
           ],
         ),
       ),

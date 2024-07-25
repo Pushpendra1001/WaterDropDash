@@ -50,7 +50,7 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
       position: Vector2(size.x - 20, 50),
       anchor: Anchor.topRight,
       textRenderer: TextPaint(
-        style: const TextStyle(color: Colors.blue, fontSize: 24),
+        style: const TextStyle(color: Colors.white, fontSize: 24),
       ),
     );
     add(scoreDisplay);

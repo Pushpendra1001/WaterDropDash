@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:waterdropdash/GameMenuScreens/GameLevelScreen.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 
-class GameMenuScreen extends StatelessWidget {
+class Levelgoalscreen extends StatelessWidget {
+  const Levelgoalscreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-   backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(children: [
+    return  Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -48,49 +50,38 @@ class GameMenuScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-            
-                
               ],
             ),
           ),
 
-          Image.asset("assets/MainMenu.png"),
+          SizedBox(height: MediaQuery.of(context).size.height*0.2,),
+          Text("Goal" , style: TextStyle(fontSize: 64, ),),
+          Center(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("30" , style: TextStyle(fontSize: 64, ),),
+                Image.asset("assets/images/water.png"),
+              ],
+            ),
+          ),
+
           SizedBox(height: 20,),
-
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(child: Image.asset(("assets/TipS7.png"), height: 75,)),
-            ],
-          ),
-          SizedBox(height: 40,),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              InkWell(
-                onTap: (){
-                  print("hi");
-                },
-                child: Center(child: Image.asset(("assets/TipS5.png"), height: 75,))),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => GameLevelScreen( ),));
-                },
-                child: Center(child: Image.asset(("assets/TipS9.png"), height: 100,))),
-              Center(child: Image.asset(("assets/TipS6.png"), height: 75,)),
-            ],
-          ),
-          SizedBox(height: 40,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-               Center(child: Image.asset(("assets/TipS8.png"), height: 75,)),
-            ],
+Padding(
+  padding: const EdgeInsets.all(48.0),
+  child: Text("Tip : Drink water to stay hydrated and healthy" , style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold ),),
+),
+          InkWell(
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Gameplayingscreen())),
+            child: Container(
+              
+              child: Image.asset("assets/images/PlayBtn.png"),
+            ),
           )
-        ],),
-      )
+          
+        ],
+      ),
     );
   }
 }
