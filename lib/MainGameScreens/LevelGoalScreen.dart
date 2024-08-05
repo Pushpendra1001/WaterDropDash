@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
+import 'package:waterdropdash/provider/SaveScores.dart';
 
 class Levelgoalscreen extends StatelessWidget {
    Levelgoalscreen({super.key , required this.currentLevel , required this.waterBottleTarget});
@@ -9,6 +11,8 @@ class Levelgoalscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final gameState = Provider.of<GameState>(context);
+
     return  Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -18,8 +22,8 @@ class Levelgoalscreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+           Padding(
+            padding:  EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -34,13 +38,13 @@ class Levelgoalscreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Image.asset("assets/images/water.png"),
-                      Text("100" , style: TextStyle(color: Colors.white),)
+                      Text('${gameState.score}', style: TextStyle(color: Colors.white),)
                     ],
                   ),
                 ),
                 Image.asset(("assets/TipS3.png"), height: 50,),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:  EdgeInsets.all(8.0),
                   child: Container(
                     width: 100,
                     height: 50,
@@ -52,11 +56,13 @@ class Levelgoalscreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Image.asset("assets/images/life.png"),
-                        Text("100" , style: TextStyle(color: Colors.white),)
+                        Text('${gameState.health}' , style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ),
                 ),
+            
+                
               ],
             ),
           ),

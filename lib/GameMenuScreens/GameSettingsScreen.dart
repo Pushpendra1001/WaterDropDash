@@ -46,68 +46,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          Consumer<SoundProvider>(
-              builder: (context, soundProvider, child) {
-                return SwitchListTile(
-                  title: Text('Sound'),
-                  value: soundProvider.soundEnabled,
-                  onChanged: (bool value) {
-                    soundProvider.toggleSound();
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            Consumer<SoundProvider>(
+                builder: (context, soundProvider, child) {
+                  return SwitchListTile(
+                    title: Text('Sound'),
+                    value: soundProvider.soundEnabled,
+                    onChanged: (bool value) {
+                      soundProvider.toggleSound();
+                    },
+                  );
+                },
+              ),
+              SizedBox(height: 20),
+              Text('Difficulty'),
+              ListTile(
+                title: const Text('Easy'),
+                leading: Radio<String>(
+                  value: 'Easy',
+                  groupValue: difficulty,
+                  onChanged: (String? value) {
+                    setState(() {
+                      difficulty = value!;
+                    });
                   },
-                );
-              },
-            ),
-            SizedBox(height: 20),
-            Text('Difficulty'),
-            ListTile(
-              title: const Text('Easy'),
-              leading: Radio<String>(
-                value: 'Easy',
-                groupValue: difficulty,
-                onChanged: (String? value) {
-                  setState(() {
-                    difficulty = value!;
-                  });
-                },
+                ),
               ),
-            ),
-            ListTile(
-              title: const Text('Normal'),
-              leading: Radio<String>(
-                value: 'Normal',
-                groupValue: difficulty,
-                onChanged: (String? value) {
-                  setState(() {
-                    difficulty = value!;
-                  });
-                },
+              ListTile(
+                title: const Text('Normal'),
+                leading: Radio<String>(
+                  value: 'Normal',
+                  groupValue: difficulty,
+                  onChanged: (String? value) {
+                    setState(() {
+                      difficulty = value!;
+                    });
+                  },
+                ),
               ),
-            ),
-            ListTile(
-              title: const Text('Hard'),
-              leading: Radio<String>(
-                value: 'Hard',
-                groupValue: difficulty,
-                onChanged: (String? value) {
-                  setState(() {
-                    difficulty = value!;
-                  });
-                },
+              ListTile(
+                title: const Text('Hard'),
+                leading: Radio<String>(
+                  value: 'Hard',
+                  groupValue: difficulty,
+                  onChanged: (String? value) {
+                    setState(() {
+                      difficulty = value!;
+                    });
+                  },
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  exitApp(context);
-                },
-                child: Text('Exit Game'),
+              SizedBox(height: 20),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    exitApp(context);
+                  },
+                  child: Text('Exit Game'),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

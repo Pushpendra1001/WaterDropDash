@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "185945359703",
+    "project_id": "waterdropdash",
+    "storage_bucket": "waterdropdash.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185945359703:android:6bb256293c72e437faaa12",
+        "android_client_info": {
+          "package_name": "com.example.waterdropdash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUq5Y931nuCnkVPsw08u2ZMTnRoXfl6Fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

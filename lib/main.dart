@@ -1,19 +1,32 @@
-import 'package:flame/game.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterdropdash/GameMenuScreens/MainGameMenu.dart';
-import 'package:waterdropdash/MainGameScreens/MainGame.dart';
+import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
+import 'package:waterdropdash/Screens/LoginScreen.dart';
 import 'package:waterdropdash/Screens/RegisterScreen.dart';
 import 'package:waterdropdash/Screens/SplashScreen.dart';
+
 import 'package:waterdropdash/Screens/onboardingScreen.dart';
+import 'package:waterdropdash/firebase_options.dart';
+import 'package:waterdropdash/provider/SaveScores.dart';
 import 'package:waterdropdash/provider/soundProvider.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => SoundProvider(),
+    MultiProvider (
+      providers: [
+        ChangeNotifierProvider(create: (context) => SoundProvider()),
+        ChangeNotifierProvider(create: (context) => GameState()..loadFromPrefs()),
+      ],
+      
       child: const MyApp(),
     ),
   );
@@ -71,6 +84,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         home: _userReachedMainGameMenu ? GameMenuScreen() : SplashScreen(),
+        // home: LoginScreen(),
       );
     }
   }

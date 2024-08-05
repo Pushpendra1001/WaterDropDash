@@ -40,8 +40,12 @@ dependencies:
   google_fonts: ^6.2.1
   audioplayers: ^5.2.1
   flame: ^1.18.0
-  shared_preferences: ^2.2.3
+  shared_preferences: ^2.3.1
   provider: ^6.1.2
+  firebase_auth: ^4.16.0
+  firebase_core: ^2.24.2
+  firebase_storage: ^11.6.0
+  cloud_firestore: ^4.14.0
 
 dev_dependencies:
   flutter_test:

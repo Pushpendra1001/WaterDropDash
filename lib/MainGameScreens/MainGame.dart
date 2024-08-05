@@ -29,7 +29,7 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
   static const List<double> lanes = [-100, 0, 100];
 
   DashGame({required this.currentLevel, required this.waterBottleTarget}) {
-    gameSpeed = 1.0 + (currentLevel * 0.1);
+    gameSpeed = 2.0 + (currentLevel * 0.1);
   }
 
   void reset() {

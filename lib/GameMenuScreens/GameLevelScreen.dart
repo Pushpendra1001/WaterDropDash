@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 import 'package:waterdropdash/MainGameScreens/LevelGoalScreen.dart';
+import 'package:waterdropdash/provider/SaveScores.dart';
 
 class GameLevelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+     final gameState = Provider.of<GameState>(context);
+
     return Scaffold(
     
       body: Container(
@@ -17,23 +21,12 @@ class GameLevelScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-              Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: CircleAvatar(
-                  radius: 30,
-                  child: Icon(Icons.arrow_back),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
+            Padding(
+            padding:  EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
                   width: 100,
                   height: 50,
                   decoration: BoxDecoration(
@@ -43,37 +36,36 @@ class GameLevelScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Image.asset("assets/images/bottle.png"),
-                      Text("100" , style: TextStyle(color: Colors.white),)
+                      Image.asset("assets/images/water.png"),
+                      Text('${gameState.score}', style: TextStyle(color: Colors.white),)
                     ],
                   ),
                 ),
-              ),
-              
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 100,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.brown,
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Image.asset("assets/images/life.png"),
-                      Text("100" , style: TextStyle(color: Colors.white),)
-                    ],
+                Image.asset(("assets/TipS3.png"), height: 50,),
+                Padding(
+                  padding:  EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 100,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.brown,
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset("assets/images/life.png"),
+                        Text('${gameState.health}' , style: TextStyle(color: Colors.white),)
+                      ],
+                    ),
                   ),
                 ),
-              ),
-          
-              
-            ],
+            
+                
+              ],
+            ),
           ),
-        ),
-            Text(
+    Text(
               "Select Level",
               style: TextStyle(fontSize: 40, color: Colors.white),
             ),
