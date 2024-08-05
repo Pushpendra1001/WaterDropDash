@@ -67,12 +67,12 @@ class GameMenuScreen extends StatelessWidget {
                 ],
               ),
             ),
-          Align(child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: InkWell(
-              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen(),)),
-              child: Text("Tips" , style: TextStyle(fontSize: 16),)),
-          ),alignment: Alignment.bottomRight,),   
+          // Align(child: Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 30),
+          //   child: InkWell(
+          //     onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen(),)),
+          //     child: Text("Tips" , style: TextStyle(fontSize: 16),)),
+          // ),alignment: Alignment.bottomRight,),   
             Image.asset("assets/MainMenu.png"),
             SizedBox(height: 20,),
           
@@ -94,7 +94,7 @@ class GameMenuScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => TreeScreen( ),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen( ),));
                   },
                   child: Center(child: Image.asset(("assets/TipS5.png"), height: 75,))),
                 InkWell(
