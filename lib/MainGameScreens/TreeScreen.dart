@@ -52,7 +52,7 @@ class _TreeScreenState extends State<TreeScreen> {
               onPressed: () {
                 if (gameState.score >= 10) {
                   gameState.increaseScore(-10);
-                  gameState.growTree(5.0);
+                  // gameState.growTree(5.0);
                   gameState.saveToPrefs();
                 }
               },

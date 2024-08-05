@@ -10,6 +10,7 @@ class GameState extends ChangeNotifier {
 
   void increaseScore(int amount) {
     _score += amount;
+    _treeGrowth += 5.0;
     notifyListeners();
   }
 
