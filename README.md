@@ -53,7 +53,7 @@ To run DropDash on your local machine:
 
 You can download the latest APK version of DropDash here:
 
-[Download DropDash APK](https://github.com/yourusername/DropDash/releases/latest/download/dropdash.apk)
+[Download DropDash APK](https://github.com/Pushpendra1001/WaterDropDash/blob/cb050a79e036292f8e4a4fa9f904bf0870083d26/DropDash.apk)
 
 
 ## License
