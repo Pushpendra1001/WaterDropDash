@@ -4,8 +4,7 @@ DropDash is an exciting mobile game where players control Dash, guiding them thr
 
 ## Screenshots
 
-https://github.com/Pushpendra1001/WaterDropDash/blob/7721d1974e24622bf39eb3ab61a6f3807bf8910f/assets/App1.jpg
-https://github.com/Pushpendra1001/WaterDropDash/blob/7721d1974e24622bf39eb3ab61a6f3807bf8910f/assets/App2.jpg
+
 
 # DropDash
 
