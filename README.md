@@ -10,13 +10,6 @@ DropDash is an exciting mobile game where players control Dash, guiding them thr
 ![App5](https://github.com/user-attachments/assets/9b666e67-bc8e-4e12-9d8e-0bb633a99cfb)
 
 
-# DropDash
-
-DropDash is an exciting mobile game where players control Dash, guiding them through a perilous world filled with obstacles while collecting energy drinks to boost their score. Built with Flutter and powered by the Flame game engine, DropDash offers a thrilling and addictive gaming experience.
-
-## Screenshots
-
-
 ## Technologies Used
 
 - Flutter
