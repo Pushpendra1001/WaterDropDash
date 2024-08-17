@@ -59,7 +59,11 @@ class GameMenuScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Image.asset("assets/images/life.png"),
+                          InkWell(
+                             onTap : (){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
+            },
+                            child: Image.asset("assets/images/life.png")),
                           Text('${gameState.health}' , style: TextStyle(color: Colors.white),)
                         ],
                       ),
@@ -78,12 +82,7 @@ class GameMenuScreen extends StatelessWidget {
           // ),alignment: Alignment.bottomRight,),   
             Image.asset("assets/MainMenu.png"),
             SizedBox(height: 20,),
-          InkWell(
-            onTap : (){
-               Navigator.push(context, MaterialPageRoute(builder: (context) => ScannerScreen(),));
-            },
-            child : Text("Scan Bottle", style: TextStyle(fontSize: 20, color: Colors.blue),)
-          ),
+         
           
           
             Row(

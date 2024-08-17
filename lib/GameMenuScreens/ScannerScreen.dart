@@ -1,19 +1,26 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
+import 'dart:io';
+import 'dart:ui' as ui;
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as img;
 
-class ScannerScreen extends StatefulWidget {
+class BottleScannerGame extends StatefulWidget {
   @override
-  _ScannerScreenState createState() => _ScannerScreenState();
+  _BottleScannerGameState createState() => _BottleScannerGameState();
 }
 
-class _ScannerScreenState extends State<ScannerScreen> {
+class _BottleScannerGameState extends State<BottleScannerGame> {
   Interpreter? _interpreter;
   bool _modelLoaded = false;
+  int _lives = 0;
+  String _result = '';
+  final List<String> _categories = ['Beer Bottles', 'Plastic Bottles', 'Soda Bottle', 'Water Bottle', 'Wine Bottle'];
 
   @override
   void initState() {
@@ -23,13 +30,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   Future<void> _loadModel() async {
     try {
-      _interpreter = await Interpreter.fromAsset('assets/model.tflite');
-      print('Model loaded successfully');
-      print('Input shape: ${_interpreter!.getInputTensor(0).shape}');
-      print('Output shape: ${_interpreter!.getOutputTensor(0).shape}');
+      _interpreter = await Interpreter.fromAsset('assets/bottle_classification_model.tflite');
       setState(() {
         _modelLoaded = true;
       });
+      print('Model loaded successfully');
     } catch (e) {
       print('Failed to load model: $e');
     }
@@ -37,91 +42,122 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   Future<void> _scanBottle() async {
     if (!_modelLoaded) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Model not loaded yet. Please wait.')),
-      );
+      setState(() {
+        _result = 'Model not loaded yet. Please wait.';
+      });
       return;
     }
 
-    final ImagePicker _picker = ImagePicker();
-    try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-
-      if (image != null) {
-        File imageFile = File(image.path);
-        var result = await classifyImage(imageFile);
-        int reward = Random().nextInt(7) + 1; // Random reward between 1 and 7
-
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Bottle Scanned'),
-            content: Text('Bottle is $result. You earned $reward lives!'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close dialog
-                  Navigator.of(context).pop(reward); // Return to previous screen with reward
-                },
-              ),
-            ],
-          ),
-        );
-      }
-    } catch (e) {
-      print('Error in _scanBottle: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error scanning bottle: $e')),
-      );
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    
+    if (image != null) {
+      File imageFile = File(image.path);
+      var result = await classifyImage(imageFile);
+      int newLives = _calculateLives(result.cast<String, double>());
+      
+      setState(() {
+        _lives += newLives;
+        String detectedBottle = result.entries.reduce((a, b) => a.value > b.value ? a : b).key;
+        _result = 'Detected: $detectedBottle\nConfidence: ${(result[detectedBottle]! * 100).toStringAsFixed(2)}%';
+        if (newLives > 0) {
+          _result += '\nYou earned $newLives lives!';
+        } else {
+          _result += '\nNo lives earned.';
+        }
+      });
     }
   }
 
-  Future<String> classifyImage(File imageFile) async {
-    var image = img.decodeImage(imageFile.readAsBytesSync())!;
-    image = img.copyResize(image, width: 64, height: 64);
-    var input = Float32List(1 * 64 * 64 * 3);
-    var inputIndex = 0;
-    
-    for (var y = 0; y < 64; y++) {
-      for (var x = 0; x < 64; x++) {
-        var pixel = image.getPixel(x, y);
-        input[inputIndex++] = img.getRed(pixel) / 255.0;
-        input[inputIndex++] = img.getGreen(pixel) / 255.0;
-        input[inputIndex++] = img.getBlue(pixel) / 255.0;
-      }
-    }
+  
+Future<Map<String, dynamic>> classifyImage(File imageFile) async {
+  // Read the file
+  Uint8List imageBytes = await imageFile.readAsBytes();
+  
+  // Decode the image
+  final ui.Image image = await decodeImageFromList(imageBytes);
+  
+  // Create a scaled version of the image
+  final scaledImage = await createResizedImage(image, 224, 224);
+  
+  // Convert the image to bytes
+  ByteData? byteData = await scaledImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+  Uint8List uint8List = byteData!.buffer.asUint8List();
 
-    var inputShape = [1, 64, 64, 3];
-    var outputShape = [1, 3];
+  // Prepare input data
+  var input = List.filled(1 * 224 * 224 * 3, 0.0);
+  int pixelIndex = 0;
+  for (int i = 0; i < uint8List.length; i += 4) {
+    input[pixelIndex] = uint8List[i] / 255.0;     // Red
+    input[pixelIndex + 1] = uint8List[i + 1] / 255.0; // Green
+    input[pixelIndex + 2] = uint8List[i + 2] / 255.0; // Blue
+    pixelIndex += 3;
+  }
 
-    try {
-      var outputs = List.filled(1 * 3, 0.0).reshape(outputShape);
-      _interpreter!.run(input.reshape(inputShape), outputs);
+  // Prepare output tensor
+  var output = List.filled(1 * _categories.length, 0.0).reshape([1, _categories.length]);
 
-      var result = outputs[0] as List<double>;
-      var maxIndex = result.indexOf(result.reduce((a, b) => a > b ? a : b));
-      
-      switch (maxIndex) {
-        case 0: return 'Empty';
-        case 1: return 'Half Full';
-        case 2: return 'Full/Overflowing';
-        default: return 'Unknown';
-      }
-    } catch (e) {
-      print('Error running model inference: $e');
-      return 'Error';
+  // Run inference
+  _interpreter!.run(input.reshape([1, 224, 224, 3]), output);
+
+  // Process results
+  var result = Map.fromIterables(_categories, output[0]);
+  return result;
+}
+
+Future<ui.Image> createResizedImage(ui.Image image, int width, int height) async {
+  final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+  final Canvas canvas = Canvas(pictureRecorder);
+  
+  canvas.drawImageRect(
+    image,
+    Rect.fromLTRB(0, 0, image.width.toDouble(), image.height.toDouble()),
+    Rect.fromLTRB(0, 0, width.toDouble(), height.toDouble()),
+    Paint(),
+  );
+
+  final ui.Picture picture = pictureRecorder.endRecording();
+  return await picture.toImage(width, height);
+}
+
+  int _calculateLives(Map<String, double> result) {
+    var maxCategory = result.entries.reduce((a, b) => a.value > b.value ? a : b).key;
+    var confidence = result[maxCategory]!;
+
+    if (confidence < 0.5) return 0; // Invalid image or low confidence
+
+    switch (maxCategory) {
+      case 'Beer Bottles':
+      case 'Wine Bottle':
+        return 0;
+      case 'Soda Bottle':
+        return 1;
+      case 'Plastic Bottles':
+        return Random().nextInt(2) + 2; // 2 or 3
+      case 'Water Bottle':
+        return Random().nextInt(3) + 4; // 4, 5, or 6
+      default:
+        return 0;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Bottle Scanner')),
+      appBar: AppBar(title: Text('Bottle Scanner Game')),
       body: Center(
-        child: ElevatedButton(
-          child: Text('Scan Bottle'),
-          onPressed: _scanBottle,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Lives: $_lives', style: TextStyle(fontSize: 24)),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _scanBottle,
+              child: Text('Scan Bottle'),
+            ),
+            SizedBox(height: 20),
+            Text(_result, style: TextStyle(fontSize: 18), textAlign: TextAlign.center),
+          ],
         ),
       ),
     );
