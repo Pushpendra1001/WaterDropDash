@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
+import 'package:waterdropdash/provider/GameState.dart';
 import 'package:waterdropdash/provider/SaveScores.dart';
 
 class Levelgoalscreen extends StatelessWidget {
@@ -38,7 +40,7 @@ class Levelgoalscreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Image.asset("assets/images/water.png"),
-                        Text('${gameState.score}', style: TextStyle(color: Colors.white),)
+                        Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ),
@@ -55,8 +57,10 @@ class Levelgoalscreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Image.asset("assets/images/life.png"),
-                          Text('${gameState.health}' , style: TextStyle(color: Colors.white),)
+                          InkWell(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame())),
+                            child: Image.asset("assets/images/life.png")),
+                          Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
                         ],
                       ),
                     ),
@@ -123,8 +127,39 @@ class Levelgoalscreen extends StatelessWidget {
             ),
 
             SizedBox(height: 20),
-            InkWell(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Gameplayingscreen(currentLevel: currentLevel, waterBottleTarget: waterBottleTarget))),
+              InkWell(
+              onTap: () {
+                if (gameState.lives > 0) {
+                  gameState.decreaseLives();
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(
+                      builder: (context) => Gameplayingscreen(
+                        currentLevel: currentLevel, 
+                        waterBottleTarget: waterBottleTarget
+                      )
+                    )
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('No Lives Left'),
+                        content: Text('You don\'t have any lives left. Please scan bottles to get more lives.'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
               child: Container(
                 child: Image.asset("assets/images/PlayBtn.png"),
               ),

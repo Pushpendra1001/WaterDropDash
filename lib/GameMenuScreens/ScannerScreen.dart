@@ -7,8 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as img;
+import 'package:waterdropdash/provider/GameState.dart';
 
 class BottleScannerGame extends StatefulWidget {
   @override
@@ -55,7 +57,10 @@ class _BottleScannerGameState extends State<BottleScannerGame> {
     File imageFile = File(image.path);
     var result = await classifyImage(imageFile);
     int newLives = _calculateLives(result.cast<String, double>());
-    
+
+      final gameState = Provider.of<GameState>(context, listen: false);
+      gameState.addLives(newLives);
+
     setState(() {
       _lives += newLives;
       if (result.containsKey('Invalid')) {
@@ -157,8 +162,10 @@ int _calculateLives(Map<String, double> result) {
 
   @override
   Widget build(BuildContext context) {
+  final gameState = Provider.of<GameState>(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text('Bottle Scanner Game')),
+      appBar: AppBar(title: Text('Scan Bottle To Get Life')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -169,8 +176,14 @@ int _calculateLives(Map<String, double> result) {
               onPressed: _scanBottle,
               child: Text('Scan Bottle'),
             ),
-            SizedBox(height: 20),
-            Text(_result, style: TextStyle(fontSize: 18), textAlign: TextAlign.center),
+               SizedBox(height: 20),
+            Consumer<GameState>(
+              builder: (context, gameState, child) => Text(
+                'Result: $_result',
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ],
         ),
       ),

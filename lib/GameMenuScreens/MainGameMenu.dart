@@ -12,6 +12,7 @@ import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
 import 'package:waterdropdash/Screens/LeaderboardScreen.dart';
 import 'package:waterdropdash/TipsScreens/TipScreen.dart';
+import 'package:waterdropdash/provider/GameState.dart';
 import 'package:waterdropdash/provider/SaveScores.dart';
 
 class GameMenuScreen extends StatelessWidget {
@@ -42,7 +43,7 @@ class GameMenuScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Image.asset("assets/images/water.png"),
-                        Text('${gameState.score}', style: TextStyle(color: Colors.white),)
+                        Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ),
@@ -64,7 +65,7 @@ class GameMenuScreen extends StatelessWidget {
                Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
             },
                             child: Image.asset("assets/images/life.png")),
-                          Text('${gameState.health}' , style: TextStyle(color: Colors.white),)
+                          Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
                         ],
                       ),
                     ),

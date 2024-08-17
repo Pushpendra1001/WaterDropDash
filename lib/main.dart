@@ -12,6 +12,7 @@ import 'package:waterdropdash/Screens/SplashScreen.dart';
 
 import 'package:waterdropdash/Screens/onboardingScreen.dart';
 import 'package:waterdropdash/firebase_options.dart';
+import 'package:waterdropdash/provider/GameState.dart';
 import 'package:waterdropdash/provider/SaveScores.dart';
 import 'package:waterdropdash/provider/soundProvider.dart';
 
@@ -24,7 +25,7 @@ void main() async{
     MultiProvider (
       providers: [
         ChangeNotifierProvider(create: (context) => SoundProvider()),
-        ChangeNotifierProvider(create: (context) => GameState()..loadFromPrefs()),
+        ChangeNotifierProvider(create: (context) => GameState()),
       ],
       
       child: const MyApp(),

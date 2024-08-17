@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 import 'package:waterdropdash/MainGameScreens/LevelGoalScreen.dart';
+import 'package:waterdropdash/provider/GameState.dart';
 import 'package:waterdropdash/provider/SaveScores.dart';
 
 class GameLevelScreen extends StatelessWidget {
@@ -37,7 +39,7 @@ class GameLevelScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Image.asset("assets/images/water.png"),
-                      Text('${gameState.score}', style: TextStyle(color: Colors.white),)
+                      Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
                     ],
                   ),
                 ),
@@ -54,8 +56,10 @@ class GameLevelScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Image.asset("assets/images/life.png"),
-                        Text('${gameState.health}' , style: TextStyle(color: Colors.white),)
+                        InkWell(
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame())),
+                          child: Image.asset("assets/images/life.png")),
+                        Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ),

@@ -1,34 +1,69 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GameState extends ChangeNotifier {
-  double _treeGrowth = 10.0; 
-  int _score = 0;
+  int _lives = 3;
+  int _currentScore = 100;
+  int _highestScore = 100;
 
-  double get treeGrowth => _treeGrowth;
-  int get score => _score;
+  GameState() {
+    _loadHighestScore();
+  }
 
-  void increaseScore(int amount) {
-    _score += amount;
-    _treeGrowth += 5.0;
+  int get lives => _lives;
+  int get currentScore => _currentScore;
+  int get highestScore => _highestScore;
+
+  void setLives(int lives) {
+    _lives = lives;
     notifyListeners();
   }
 
-  void growTree(double amount) {
-    _treeGrowth += amount;
+  void addLives(int amount) {
+    _lives += amount;
     notifyListeners();
   }
 
-  Future<void> saveToPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('treeGrowth', _treeGrowth);
-    await prefs.setInt('score', _score);
+  void decreaseLives() {
+    if (_lives > 0) {
+      _lives--;
+      notifyListeners();
+    }
   }
 
-  Future<void> loadFromPrefs() async {
+  void setCurrentScore(int score) {
+    _currentScore = score;
+    updateHighestScore();
+    notifyListeners();
+  }
+
+  void addToCurrentScore(int amount) {
+    _currentScore += amount;
+    updateHighestScore();
+    notifyListeners();
+  }
+
+  void updateHighestScore() {
+    if (_currentScore > _highestScore) {
+      _highestScore = _currentScore;
+      _saveHighestScore();
+    }
+  }
+
+  Future<void> _loadHighestScore() async {
     final prefs = await SharedPreferences.getInstance();
-    _treeGrowth = prefs.getDouble('treeGrowth') ?? 10.0;
-    _score = prefs.getInt('score') ?? 0;
+    _highestScore = prefs.getInt('highestScore') ?? 0;
+    notifyListeners();
+  }
+
+  Future<void> _saveHighestScore() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('highestScore', _highestScore);
+  }
+
+  void resetGame() {
+    _lives = 3;
+    _currentScore = 0;
     notifyListeners();
   }
 }
