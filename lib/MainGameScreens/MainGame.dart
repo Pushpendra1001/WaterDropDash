@@ -13,6 +13,7 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
   late TextComponent scoreDisplay;
   late TextComponent taskDisplay;
   late TextComponent livesDisplay;
+  late TextComponent comboDisplay;
   int score = 0;
   int currentLevel;
   int waterBottleTarget;
@@ -24,7 +25,8 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
   double invulnerabilityTimer = 0;
   static const double invulnerabilityDuration = 2.0;
   final Random random = Random();
-  
+  int comboCount = 0;
+  double comboMultiplier = 1.0;
 
   static const List<double> lanes = [-100, 0, 100];
 
@@ -41,8 +43,9 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
     invulnerabilityTimer = 0;
     player.currentLane = 1;
     player.opacity = 1.0;
-    removeAll(children.whereType<Obstacle>());
-    removeAll(children.whereType<EnergyBottle>());
+    comboCount = 0;
+    comboMultiplier = 1.0;
+    removeAll(children.whereType<Item>());
   }
 
   @override
@@ -85,26 +88,27 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
     );
     add(livesDisplay);
 
-    _spawnObstacles();
-    _spawnEnergyBottles();
+    comboDisplay = TextComponent(
+      text: 'Combo: x1.0',
+      position: Vector2(size.x - 50, 80),
+      anchor: Anchor.topRight,
+      textRenderer: TextPaint(style: const TextStyle(color: Colors.yellow, fontSize: 20)),
+    );
+    add(comboDisplay);
+
+    _spawnItems();
   }
 
-  void _spawnObstacles() {
-    final obstacleSpawner = TimerComponent(
-      period: 1.5 / gameSpeed,
+  void _spawnItems() {
+    final itemSpawner = TimerComponent(
+      period: 1.0 / gameSpeed,
       repeat: true,
-      onTick: () => add(Obstacle()),
+      onTick: () {
+        final itemType = ItemType.values[random.nextInt(ItemType.values.length)];
+        add(Item(type: itemType));
+      },
     );
-    add(obstacleSpawner);
-  }
-
-  void _spawnEnergyBottles() {
-    final energyBottleSpawner = TimerComponent(
-      period: 2 / gameSpeed,
-      repeat: true,
-      onTick: () => add(EnergyBottle()),
-    );
-    add(energyBottleSpawner);
+    add(itemSpawner);
   }
 
   @override
@@ -114,6 +118,7 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
       scoreDisplay.text = 'Score: $score';
       taskDisplay.text = 'Water: $waterBottlesCollected / $waterBottleTarget';
       livesDisplay.text = 'Lives: $lives';
+      comboDisplay.text = 'Combo: x${comboMultiplier.toStringAsFixed(1)}';
 
       if (isInvulnerable) {
         invulnerabilityTimer += dt;
@@ -148,6 +153,8 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
       lives--;
       isInvulnerable = true;
       player.opacity = 0.5;
+      comboCount = 0;
+      comboMultiplier = 1.0;
       if (lives <= 0) {
         isGamePaused = true;
         overlays.add('gameOver');
@@ -155,9 +162,95 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
     }
   }
 
-  void collectWater() {
-    score += 10;
-    waterBottlesCollected++;
+  void collectItem(ItemType type) {
+    switch (type) {
+      case ItemType.lemonTea:
+        score += (1 * comboMultiplier).round();
+        waterBottlesCollected += 1;
+        increaseCombo();
+        break;
+      case ItemType.water:
+        score += (2 * comboMultiplier).round();
+        waterBottlesCollected += 1;
+        increaseCombo();
+        break;
+      case ItemType.soda:
+      case ItemType.wine:
+      case ItemType.bottle:
+        hitObstacle();
+        break;
+      case ItemType.powerUp:
+        activatePowerUp();
+        break;
+    }
+  }
+
+  void increaseCombo() {
+    comboCount++;
+    if (comboCount % 5 == 0) {
+      comboMultiplier += 0.5;
+    }
+  }
+
+  void activatePowerUp() {
+        isInvulnerable = true;
+    invulnerabilityTimer = 0;
+    player.opacity = 0.7;
+  }
+}
+
+enum ItemType { lemonTea, water, soda, wine, bottle, powerUp }
+
+class Item extends SpriteComponent with CollisionCallbacks, HasGameRef<DashGame> {
+  final ItemType type;
+
+  Item({required this.type}) : super(size: Vector2(48, 48));
+
+  @override
+  Future<void> onLoad() async {
+    sprite = await gameRef.loadSprite(_getSpriteName());
+    position = Vector2(
+      gameRef.size.x / 2 + DashGame.lanes[gameRef.random.nextInt(3)],
+      -size.y,
+    );
+    anchor = Anchor.center;
+    add(RectangleHitbox());
+  }
+
+  String _getSpriteName() {
+    switch (type) {
+      case ItemType.lemonTea:
+        return 'lemon-tea.png';
+      case ItemType.water:
+        return 'water1.png';
+      case ItemType.soda:
+        return 'soda.png';
+      case ItemType.wine:
+        return 'wine.png';
+      case ItemType.bottle:
+        return 'bottle.png';
+      case ItemType.powerUp:
+        return 'powerup.png';
+    }
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    position.y += 300 * gameRef.gameSpeed * dt;
+    if (position.y > gameRef.size.y + size.y) {
+      removeFromParent();
+    }
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    
+    if (other is Player) {
+      gameRef.collectItem(type);
+      removeFromParent();
+    }
   }
 }
 
@@ -186,65 +279,5 @@ class Player extends SpriteComponent with CollisionCallbacks, HasGameRef<DashGam
 
   void moveRight() {
     if (currentLane < 2) currentLane++;
-  }
-
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-      
-    if (other is Obstacle) {
-      gameRef.hitObstacle();
-    } else if (other is EnergyBottle) {
-      gameRef.collectWater();
-      other.removeFromParent();
-    }
-  }
-}
-
-class Obstacle extends SpriteComponent with CollisionCallbacks, HasGameRef<DashGame> {
-  Obstacle() : super(size: Vector2(48, 48));
-
-  @override
-  Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('bottle.png');
-    position = Vector2(
-      gameRef.size.x / 2 + DashGame.lanes[gameRef.random.nextInt(3)],
-      -size.y,
-    );
-    anchor = Anchor.center;
-    add(RectangleHitbox());
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    position.y += 300 * gameRef.gameSpeed * dt;
-    if (position.y > gameRef.size.y + size.y) {
-      removeFromParent();
-    }
-  }
-}
-
-class EnergyBottle extends SpriteComponent with CollisionCallbacks, HasGameRef<DashGame> {
-  EnergyBottle() : super(size: Vector2(32, 32));
-
-  @override
-  Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('water.png');
-    position = Vector2(
-      gameRef.size.x / 2 + DashGame.lanes[gameRef.random.nextInt(3)],
-      -size.y,
-    );
-    anchor = Anchor.center;
-    add(RectangleHitbox());
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    position.y += 250 * gameRef.gameSpeed * dt;
-    if (position.y > gameRef.size.y + size.y) {
-      removeFromParent();
-    }
   }
 }

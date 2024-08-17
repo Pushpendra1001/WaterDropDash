@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterdropdash/GameMenuScreens/DailyChallengePage.dart';
 import 'package:waterdropdash/GameMenuScreens/GameLevelScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/GameSettingsScreen.dart';
+import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
+
+
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
 import 'package:waterdropdash/Screens/LeaderboardScreen.dart';
@@ -75,6 +78,13 @@ class GameMenuScreen extends StatelessWidget {
           // ),alignment: Alignment.bottomRight,),   
             Image.asset("assets/MainMenu.png"),
             SizedBox(height: 20,),
+          InkWell(
+            onTap : (){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => ScannerScreen(),));
+            },
+            child : Text("Scan Bottle", style: TextStyle(fontSize: 20, color: Colors.blue),)
+          ),
+          
           
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,7 +98,6 @@ class GameMenuScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 40,),
-          
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
