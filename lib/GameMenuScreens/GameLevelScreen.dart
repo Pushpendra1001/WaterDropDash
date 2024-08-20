@@ -23,31 +23,13 @@ class GameLevelScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Padding(
-            padding:  EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 100,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.brown,
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Image.asset("assets/images/water.png"),
-                      Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
-                    ],
-                  ),
-                ),
-                Image.asset(("assets/TipS3.png"), height: 50,),
-                Padding(
-                  padding:  EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 100,
+           Padding(
+              padding:  EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width/3,
                     height: 50,
                     decoration: BoxDecoration(
                       color: Colors.brown,
@@ -56,20 +38,42 @@ class GameLevelScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        InkWell(
-                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame())),
-                          child: Image.asset("assets/images/life.png")),
-                        Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
+                        Image.asset("assets/images/water.png"),
+                        Text("Score" , style: TextStyle(color: Colors.white),),
+                        Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ),
-                ),
-            
-                
-              ],
+                  Image.asset(("assets/TipS3.png"), height: 50,),
+                  Padding(
+                    padding:  EdgeInsets.all(8.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/ 3,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.brown,
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                             onTap : (){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
+            },
+                            child: Image.asset("assets/images/life.png")),
+                            Text("Lives" , style: TextStyle(color: Colors.white),),
+                          Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                    ),
+                  ),
+              
+                  
+                ],
+              ),
             ),
-          ),
-    Text(
+         Text(
               "Select Level",
               style: TextStyle(fontSize: 40, color: Colors.white),
             ),

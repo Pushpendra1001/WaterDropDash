@@ -31,7 +31,7 @@ class GameMenuScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 100,
+                    width: MediaQuery.of(context).size.width/3,
                     height: 50,
                     decoration: BoxDecoration(
                       color: Colors.brown,
@@ -41,6 +41,7 @@ class GameMenuScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Image.asset("assets/images/water.png"),
+                        Text("Score" , style: TextStyle(color: Colors.white),),
                         Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
                       ],
                     ),
@@ -49,7 +50,7 @@ class GameMenuScreen extends StatelessWidget {
                   Padding(
                     padding:  EdgeInsets.all(8.0),
                     child: Container(
-                      width: 100,
+                      width: MediaQuery.of(context).size.width/ 3,
                       height: 50,
                       decoration: BoxDecoration(
                         color: Colors.brown,
@@ -63,6 +64,7 @@ class GameMenuScreen extends StatelessWidget {
                Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
             },
                             child: Image.asset("assets/images/life.png")),
+                            Text("Lives" , style: TextStyle(color: Colors.white),),
                           Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
                         ],
                       ),
@@ -94,7 +96,7 @@ class GameMenuScreen extends StatelessWidget {
                   },
                   child: Column(children
                   
-                  : [ Center(child: Image.asset(("assets/TipS7.png"), height: 75,)), Text("Leadboard"),]),
+                  : [ Center(child: Image.asset(("assets/TipS7.png"), height: 75,)), Text("Leaderboard"),]),
             )],
             ),
             SizedBox(height: 40,),

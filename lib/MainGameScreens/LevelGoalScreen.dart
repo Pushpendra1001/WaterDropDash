@@ -25,12 +25,12 @@ class Levelgoalscreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding:  EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 100,
+                    width: MediaQuery.of(context).size.width/3,
                     height: 50,
                     decoration: BoxDecoration(
                       color: Colors.brown,
@@ -40,15 +40,16 @@ class Levelgoalscreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Image.asset("assets/images/water.png"),
+                        Text("Score" , style: TextStyle(color: Colors.white),),
                         Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ),
                   Image.asset(("assets/TipS3.png"), height: 50,),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding:  EdgeInsets.all(8.0),
                     child: Container(
-                      width: 100,
+                      width: MediaQuery.of(context).size.width/ 3,
                       height: 50,
                       decoration: BoxDecoration(
                         color: Colors.brown,
@@ -58,17 +59,22 @@ class Levelgoalscreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           InkWell(
-                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame())),
+                             onTap : (){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
+            },
                             child: Image.asset("assets/images/life.png")),
+                            Text("Lives" , style: TextStyle(color: Colors.white),),
                           Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
                         ],
                       ),
                     ),
                   ),
+              
+                  
                 ],
               ),
             ),
-
+       
             SizedBox(height: 20),
             Text("Level ${currentLevel+1} Goal", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
