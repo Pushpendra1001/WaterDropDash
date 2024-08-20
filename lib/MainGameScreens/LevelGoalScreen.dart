@@ -161,7 +161,13 @@ class Levelgoalscreen extends StatelessWidget {
                 }
               },
               child: Container(
-                child: Image.asset("assets/images/PlayBtn.png"),
+                child: Column(
+                  children: [
+                    Image.asset("assets/images/PlayBtn.png"),
+                    SizedBox(height: 10,),
+                    Text("Play" , style: TextStyle(fontSize: 32),)
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 20),

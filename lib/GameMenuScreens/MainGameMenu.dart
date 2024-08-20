@@ -6,8 +6,6 @@ import 'package:waterdropdash/GameMenuScreens/DailyChallengePage.dart';
 import 'package:waterdropdash/GameMenuScreens/GameLevelScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/GameSettingsScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
-
-
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
 import 'package:waterdropdash/Screens/LeaderboardScreen.dart';
@@ -94,8 +92,10 @@ class GameMenuScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => LeaderboardScreen(),));
                   },
-                  child: Center(child: Image.asset(("assets/TipS7.png"), height: 75,))),
-              ],
+                  child: Column(children
+                  
+                  : [ Center(child: Image.asset(("assets/TipS7.png"), height: 75,)), Text("Leadboard"),]),
+            )],
             ),
             SizedBox(height: 40,),
             Row(
@@ -105,17 +105,32 @@ class GameMenuScreen extends StatelessWidget {
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen( ),));
                   },
-                  child: Center(child: Image.asset(("assets/TipS5.png"), height: 75,))),
+                  child: Column(
+                    children: [
+                      Center(child: Image.asset(("assets/TipS5.png"), height: 75,)),
+                      Text("Tips")
+                    ],
+                  )),
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => GameLevelScreen( ),));
                   },
-                  child: Center(child: Image.asset(("assets/images/PlayBtn.png"), height: 100,))),
+                  child: Column(
+                    children: [
+                      Center(child: Image.asset(("assets/images/PlayBtn.png"), height: 100,)),
+                      Text("Play")
+                    ],
+                  )),
                 InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen( ),));
                   },
-                  child: Center(child: Image.asset(("assets/TipS6.png"), height: 75,))),
+                  child: Column(
+                    children: [
+                      Center(child: Image.asset(("assets/TipS6.png"), height: 75,)),
+                      Text("Settings")
+                    ],
+                  )),
               ],
             ),
             SizedBox(height: 40,),
@@ -148,7 +163,12 @@ class GameMenuScreen extends StatelessWidget {
               },
             );
                   },
-                  child: Center(child: Image.asset(("assets/TipS8.png"), height: 75,))),
+                  child: Column(
+                    children: [
+                      Center(child: Image.asset(("assets/TipS8.png"), height: 75,)),
+                      Text("Exit")
+                    ],
+                  )),
               ],
             ),
           
