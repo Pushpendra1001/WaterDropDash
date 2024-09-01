@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterdropdash/GameMenuScreens/DailyChallengePage.dart';
 import 'package:waterdropdash/GameMenuScreens/GameLevelScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/GameSettingsScreen.dart';
+import 'package:waterdropdash/GameMenuScreens/ProgressScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
@@ -46,7 +47,9 @@ class GameMenuScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Image.asset(("assets/TipS3.png"), height: 50,),
+                  InkWell(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen(),)),
+                    child: Image.asset(("assets/TipS3.png"), height: 50,)),
                   Padding(
                     padding:  EdgeInsets.all(8.0),
                     child: Container(
@@ -105,12 +108,12 @@ class GameMenuScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen( ),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProgressScreen( ),));
                   },
                   child: Column(
                     children: [
                       Center(child: Image.asset(("assets/TipS5.png"), height: 75,)),
-                      Text("Tips")
+                      Text("Challenge")
                     ],
                   )),
                 InkWell(

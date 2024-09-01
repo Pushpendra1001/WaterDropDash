@@ -23,6 +23,7 @@ class _BottleScannerGameState extends State<BottleScannerGame> {
   int _lives = 0;
   String _result = '';
   final List<String> _categories = ['Beer Bottles', 'Plastic Bottles', 'Soda Bottle', 'Water Bottle', 'Wine Bottle'];
+  
 
   @override
   void initState() {

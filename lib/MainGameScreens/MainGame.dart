@@ -34,6 +34,8 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
     gameSpeed = 2.0 + (currentLevel * 0.1);
   }
 
+  
+
   void reset() {
     score = 0;
     waterBottlesCollected = 0;
@@ -120,6 +122,10 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
       livesDisplay.text = 'Lives: $lives';
       comboDisplay.text = 'Combo: x${comboMultiplier.toStringAsFixed(1)}';
 
+    if (waterBottlesCollected >= waterBottleTarget) {
+      showRewardScreen(100, 'AQUA'); // Adjust reward amount as needed
+    }
+
       if (isInvulnerable) {
         invulnerabilityTimer += dt;
         if (invulnerabilityTimer >= invulnerabilityDuration) {
@@ -135,6 +141,11 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
       }
     }
   }
+
+void showRewardScreen(int rewardAmount, String badgeName) {
+  isGamePaused = true;
+  overlays.add('rewardScreen');
+}
 
   @override
   void onTapDown(TapDownInfo info) {

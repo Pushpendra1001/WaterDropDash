@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:waterdropdash/GameMenuScreens/WaterTargetScreen.dart';
-import 'package:waterdropdash/MainGameScreens/WaterIntakeScreen.dart';
+import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
 
-class DailyChallengeScreen extends StatelessWidget {
+class WaterTargetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,10 +27,10 @@ class DailyChallengeScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 10,
-                          backgroundImage: AssetImage('assets/images/water.png'),
+                          backgroundImage: AssetImage('assets/humanwaterintake.png'),
                         ),
                         SizedBox(width: 8),
-                       
+                        Text('300', style: TextStyle(color: Colors.white)),
                       ],
                     ),
                   ),
@@ -43,41 +42,36 @@ class DailyChallengeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            Spacer(),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.3,
-              width: MediaQuery.of(context).size.width * 0.8,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+            Expanded(
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Center(child: Text(  'YOUR PROFILE', style: TextStyle(color: Colors.orange , fontSize: 26))),
-                  Text(  'Gender: Male' , style: TextStyle(fontSize: 20),),
-                  Text(  'Age: xx' , style: TextStyle(fontSize: 20),),
-                  SizedBox(height: 10, ),
-                  Text(  'STATUS:', style: TextStyle(color: Colors.orange , fontSize: 20)),
-                  Text(  'You are doing great! Keep it up!' , style: TextStyle(fontSize: 20),),
-                
+                  Image.asset(
+                    'assets/humanwaterintake.png',
+                    color: Colors.blue.withOpacity(0.1),
+                    colorBlendMode: BlendMode.srcATop,
+                  ),
+               
                 ],
               ),
             ),
-            Spacer(),
-                      
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('0.0 L', style: TextStyle(color: Colors.red)),
+                  Text('1.5 L', style: TextStyle(color: Colors.green)),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
-                child: Text('Recommend'),
+                child: Text('Drink Water'),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => WaterTargetScreen()),
-                  );
+                  
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame()));
                 },
                 style: ElevatedButton.styleFrom(
                   

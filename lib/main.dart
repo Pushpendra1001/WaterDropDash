@@ -9,7 +9,6 @@ import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
 import 'package:waterdropdash/Screens/LoginScreen.dart';
 import 'package:waterdropdash/Screens/RegisterScreen.dart';
 import 'package:waterdropdash/Screens/SplashScreen.dart';
-
 import 'package:waterdropdash/Screens/onboardingScreen.dart';
 import 'package:waterdropdash/firebase_options.dart';
 import 'package:waterdropdash/provider/GameState.dart';
@@ -65,7 +64,7 @@ class _MyAppState extends State<MyApp> {
       _userReachedMainGameMenu = reachedMainGameMenu;
       _isLoading = false;
     });
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +77,7 @@ class _MyAppState extends State<MyApp> {
     } else {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Drop Dash Game',
         theme: ThemeData(
           fontFamily: GoogleFonts.pottaOne().fontFamily,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

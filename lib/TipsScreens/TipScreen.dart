@@ -25,18 +25,16 @@ class TipScreenState extends State<TipScreen> {
   ];
 
   final List<List<String>> _tipTexts = [
-    ["Quick Start: Use the Quick Start button to jump directly into the action without navigating through multiple menus."],
-    ["Explore Options: Take a moment to explore the various menu options to get the most out of the game features and settings."],
-    ["Check Your Rank: Regularly check the leaderboard to see how you rank against other players and strive to improve your position."],
-    ["Collect Points: Use the points you collect during gameplay to grow your virtual tree, making it flourish and thrive."],
-    ["Customize Experience: Use the settings menu to adjust game sound, graphics quality, and other preferences to tailor the game to your liking."],
-    ["Stay Hydrated: Keep an eye on Droppy's health bar to ensure he stays hydrated and energetic throughout the game."],
-    ["Customize Experience: Use the settings menu to adjust game sound, graphics quality, and other preferences to tailor the game to your liking."],
-    ["Collect Power-ups: Look for and collect power-ups to give Droppy temporary boosts and make challenging levels easier to complete."],
-    ["Always make sure your game progress is saved before exiting to avoid losing any achievements or collected points."],
-    ["Use Hints: Don't hesitate to use hints if you get stuck on a puzzle or challenge; they can provide valuable guidance."],
-    ["Ready to play?"],
-  ];
+    ["Tip : As your GUIDE, let me help you familiarize with this terrain READY???"],
+    ["Tip : This is your portal, you can always return to HYDROLAND with just a TAP."],
+    ["TIP : This takes you to your progress dashboard."],
+    ["Tip : Let me introduce you to your friendly MENU companions"],
+    ["Tip : Complete Daily Challenges to win prizes that can help you in this quest with just a TAP."],
+    ["Tip : Customize the sound and music, and not just that, DROPPY”S appearance too!"],
+    ["Tip: See how you rank in comparison to other heroes like you globally!"],
+    ["Tip: You can exit DropDash with this, but I am sure you would not like to do that just yet!"],
+    ["Tip: Can’t wait to get started right?That is what this button is for.HIT IT!"],
+     ];
 
   @override
   Widget build(BuildContext context) {
@@ -96,59 +94,44 @@ class TipScreenState extends State<TipScreen> {
                       );
                     }
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Image (30% width)
-                        Expanded(
-                          flex: 10,
-                          child: Image(
-                            image: AssetImage(_tipImages[index]),
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        // Text content (70% width)
-                        SizedBox(height: MediaQuery.of(context).size.height/4,),
-                        Expanded(
-                          flex: 7,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Tip ${index + 1}",
+    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Image(image: AssetImage(_tipImages[index]), fit: BoxFit.contain, width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height*0.4),
+                    SizedBox(height: 20,),
+                  Stack(
+                    children: [
+                      Image.asset("assets/girlavtar.png"),
+                         Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 35 , ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width/2,
+                            child: Padding(
+                              padding:  EdgeInsets.all(16.0),
+                              child: Text(
+                                _tipTexts[index].first,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue,
+                                  fontSize: 16.0,
+                                  color: Colors.black,
                                 ),
                               ),
-                              SizedBox(height: 16),
-                              ..._tipTexts[index].map((text) => Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("• ", style: TextStyle(fontSize: 18, color: Colors.blue)),
-                                    Expanded(
-                                      child: Text(
-                                        text,
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                            ],
+                            ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    )
+                  
+                    ],
                   ),
-                );
+                  
+                   ],
+                  )
+                 );
               },
             ),
           ),

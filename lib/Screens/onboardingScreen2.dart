@@ -11,18 +11,20 @@ class Onboardingscreen2 extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height/2,
             child: Center(
               child: Image.asset("assets/Onboarding2.png"),),
           ),
           Container(
-            width: MediaQuery.of(context).size.width/1.4,
+            width: MediaQuery.of(context).size.width/1.5,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("It is recommended that you take 1 litre of water a day", style: TextStyle(fontSize: 16 ,),),
-                    
+                Text("Are you aware that unhealthy beverages cause tooth decay?", style: TextStyle(fontSize: 16  ,),),
                     SizedBox(height: 40,),
                     InkWell(
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen())),
