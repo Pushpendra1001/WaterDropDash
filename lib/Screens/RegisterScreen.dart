@@ -17,7 +17,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool showAdditionalFields = false;
   String? selectedGender;
   String? selectedAge;
-  
+  String? isPregnant;
+  String? isBreastFeeding;
+
+  final List<String> ageOptions = ['18-25', '26-35', '36-45', '46-55', '56+'];
+  final List<String> yesNoOptions = ['Yes', 'No'];
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
@@ -27,24 +32,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> _register() async {
-    if (_passwordController.text != _confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Passwords do not match")),
-      );
-      return;
-    }
-
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
 
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
         'email': _emailController.text,
-        'gender': selectedGender,
         'age': selectedAge,
-        'target': _targetController.text,
+        'isPregnant': isPregnant,
+        'Gender': selectedGender,
+        'isBreastFeeding': isBreastFeeding,
       });
 
       Navigator.pushReplacement(
@@ -129,11 +128,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                   Center(child: Text("Already Have Account?", style: TextStyle(fontSize: 16))),
-              Center(child: InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen())),
-                child: Text("Login", style: TextStyle(fontSize: 18, color: Colors.blue)),
-              )),
+                Center(child: Text("Already Have Account?", style: TextStyle(fontSize: 16))),
+                Center(child: InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen())),
+                  child: Text("Login", style: TextStyle(fontSize: 18, color: Colors.blue)),
+                )),
               ] else ...[
                 SizedBox(height: 30),
                 Text("Gender", style: TextStyle(fontSize: 24)),
@@ -154,12 +153,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
                 SizedBox(height: 30),
-                Text("Age", style: TextStyle(fontSize: 24)),
+                Text("Select Age", style: TextStyle(fontSize: 24)),
                 SizedBox(height: 10),
                 DropdownButton<String>(
                   value: selectedAge,
-                  hint: Text("Select Age"),
-                  items: List.generate(100, (index) => (index + 1).toString()).map((String value) {
+                  items: ageOptions.map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -168,6 +166,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onChanged: (newValue) {
                     setState(() {
                       selectedAge = newValue;
+                    });
+                  },
+                ),
+                SizedBox(height: 30),
+                Text("Are you pregnant?", style: TextStyle(fontSize: 18)),
+                DropdownButton<String>(
+                  value: isPregnant,
+                  items: yesNoOptions.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      isPregnant = newValue;
+                    });
+                  },
+                ),
+                SizedBox(height: 30),
+                Text("Are you breastfeeding?", style: TextStyle(fontSize: 18)),
+                DropdownButton<String>(
+                  value: isBreastFeeding,
+                  items: yesNoOptions.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      isBreastFeeding = newValue;
                     });
                   },
                 ),
@@ -200,7 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ],
-              SizedBox(height: 30),
+              SizedBox(height: 10),
               Center(child: Text("Play as Guest?", style: TextStyle(fontSize: 16, color: Colors.blue))),
               Center(child: InkWell(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomeScreen())),

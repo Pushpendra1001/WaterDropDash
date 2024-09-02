@@ -5,6 +5,7 @@ class GameState extends ChangeNotifier {
   int _lives = 3;
   int _currentScore = 100;
   int _highestScore = 100;
+  
 
   GameState() {
     _loadHighestScore();
