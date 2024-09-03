@@ -1,12 +1,15 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waterdropdash/CityScreens/DashLandScreen2.dart';
 import 'package:waterdropdash/GameMenuScreens/DailyChallengePage.dart';
 import 'package:waterdropdash/GameMenuScreens/GameLevelScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/GameSettingsScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/ProgressScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
+import 'package:waterdropdash/CityScreens/DashLandScreen.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
 import 'package:waterdropdash/Screens/LeaderboardScreen.dart';
@@ -48,7 +51,7 @@ class GameMenuScreen extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen(),)),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProgressScreen(),)),
                     child: Image.asset(("assets/TipS3.png"), height: 50,)),
                   Padding(
                     padding:  EdgeInsets.all(8.0),
@@ -64,7 +67,7 @@ class GameMenuScreen extends StatelessWidget {
                         children: [
                           InkWell(
                              onTap : (){
-               Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
+              //  Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
             },
                             child: Image.asset("assets/images/life.png")),
                             Text("Lives" , style: TextStyle(color: Colors.white),),
@@ -84,11 +87,12 @@ class GameMenuScreen extends StatelessWidget {
           //     onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => TipScreen(),)),
           //     child: Text("Tips" , style: TextStyle(fontSize: 16),)),
           // ),alignment: Alignment.bottomRight,),   
-            Image.asset("assets/MainMenu.png"),
+            InkWell(
+              onTap: () => Navigator.push(context,    MaterialPageRoute(
+              builder: (context) =>  WaterDropCity(),
+            ),),
+              child: Image.asset("assets/MainMenu.png")),
             SizedBox(height: 20,),
-         
-          
-          
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +112,7 @@ class GameMenuScreen extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProgressScreen( ),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DailyChallengeScreen( ),));
                   },
                   child: Column(
                     children: [

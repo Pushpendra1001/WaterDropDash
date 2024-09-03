@@ -86,7 +86,6 @@ class DailyChallengeScreen extends StatelessWidget {
                         Text('Age: ${userData['age'] ?? 'N/A'}', style: TextStyle(fontSize: 20)),
                         Text('Pregnant: ${userData['isPregnant'] ?? 'N/A'}', style: TextStyle(fontSize: 20)),
                         Text('Breastfeeding: ${userData['isBreastFeeding'] ?? 'N/A'}', style: TextStyle(fontSize: 20)),
-                        
                       ],
                     ),
                   );
