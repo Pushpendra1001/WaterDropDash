@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waterdropdash/CityScreens/cityMapScreen.dart';
 
 import 'package:waterdropdash/GameMenuScreens/DailyChallengePage.dart';
 import 'package:waterdropdash/GameMenuScreens/GameLevelScreen.dart';
@@ -89,7 +90,7 @@ class GameMenuScreen extends StatelessWidget {
           // ),alignment: Alignment.bottomRight,),   
             InkWell(
               onTap: () => Navigator.push(context,    MaterialPageRoute(
-              builder: (context) =>  WaterDropCity(),
+              builder: (context) =>  CityMapScreen(),
             ),),
               child: Image.asset("assets/MainMenu.png")),
             SizedBox(height: 20,),
