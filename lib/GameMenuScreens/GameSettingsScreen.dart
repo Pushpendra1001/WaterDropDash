@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:waterdropdash/provider/GameState.dart';
+
+import 'package:waterdropdash/provider/avtarProvider.dart';
 import 'package:waterdropdash/provider/soundProvider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -9,33 +12,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String difficulty = 'Normal';
-
-  void exitApp(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Exit"),
-          content: Text("Do you want to exit?"),
-          actions: [
-            TextButton(
-              child: Text("No"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text("Yes"),
-              onPressed: () {
-                SystemNavigator.pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  final List<String> avatars = List.generate(8, (index) => 'dash${index + 1}.png');
 
   @override
   Widget build(BuildContext context) {
@@ -63,60 +40,115 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             Expanded(
-              child: Center(
-                child: Container(
-                  width: 300,
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF2A4A5F),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.lightBlue, width: 2),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Consumer<AvatarProvider>(
+                      builder: (context, avatarProvider, child) {
+                        return GridView.builder(
+                          padding: EdgeInsets.all(16),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                          ),
+                          itemCount: avatars.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                avatarProvider.setAvatar(avatars[index]);
+                                // print(avatars[index]);
+                                print(avatarProvider.selectedAvatar);
+                                
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: avatarProvider.selectedAvatar == avatars[index] ? Colors.yellow : Colors.transparent,
+                                    width: 3,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Image.asset('assets/images/${avatars[index]}'),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'SETTINGS',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.close, color: Colors.white),
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Consumer<SoundProvider>(
-                        builder: (context, soundProvider, child) {
-                          return _buildSettingRow('MUSIC', soundProvider.soundEnabled, (value) {
-                            soundProvider.toggleSound();
-                          });
-                        },
-                      ),
-                    
+                  ElevatedButton(
+                    child: Text('Save'),
+                    onPressed: () {
                       
-                        SizedBox(height: 50),
-                      ElevatedButton(
-                        child: Text('Exit Game'),
-                        onPressed: () => exitApp(context),
-                        style: ElevatedButton.styleFrom(
-                          
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          minimumSize: Size(double.infinity, 40),
-                        ),
+                      // Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    ],
+                      minimumSize: Size(200, 40),
+                    ),
                   ),
-                ),
+                  SizedBox(height: 20),
+                  Container(
+                    width: 300,
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF2A4A5F),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.lightBlue, width: 2),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'SETTINGS',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.close, color: Colors.white),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Consumer<SoundProvider>(
+                          builder: (context, soundProvider, child) {
+                            return _buildSettingRow('MUSIC', soundProvider.soundEnabled, (value) {
+                              soundProvider.toggleSound();
+                            });
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        _buildSettingRow('SOUND', false, (value) {
+                          // TODO: Implement sound toggle functionality
+                        }),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          child: Text('LANGUAGE'),
+                          onPressed: () {
+                            // TODO: Implement language selection
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            minimumSize: Size(double.infinity, 40),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

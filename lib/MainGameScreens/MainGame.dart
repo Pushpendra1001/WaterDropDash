@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -6,6 +7,8 @@ import 'package:flame/parallax.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/text.dart';
 import 'package:flame/collisions.dart';
+import 'package:waterdropdash/provider/GameState.dart';
+
 
 class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
   late Player player;
@@ -29,10 +32,11 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
   int comboCount = 0;
   double comboMultiplier = 1.0;
   double remainingTime = 30.0;
+  final AvatarProvider avatarProvider;
 
   static const List<double> lanes = [-100, 0, 100];
 
-  DashGame({required this.currentLevel, required this.waterBottleTarget}) {
+  DashGame({required this.currentLevel, required this.waterBottleTarget ,  required this.avatarProvider,}) {
     gameSpeed = 2.0 + (currentLevel * 0.1);
   }
 
@@ -68,7 +72,7 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
     );
     add(background);
 
-    player = Player();
+    player = Player(avatarProvider: avatarProvider);
     add(player);
 
     scoreDisplay = TextComponent(
@@ -131,7 +135,7 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
       repeat: true,
       onTick: () {
         
-        double powerUpChance = 0.15; 
+        double powerUpChance = 0.10; 
 
         if (random.nextDouble() < powerUpChance) {
           add(Item(type: ItemType.powerUp));
@@ -320,12 +324,14 @@ class Item extends SpriteComponent with CollisionCallbacks, HasGameRef<DashGame>
 
 class Player extends SpriteComponent with CollisionCallbacks, HasGameRef<DashGame> {
   int currentLane = 1;
-
-  Player() : super(size: Vector2(100, 100));
+  final AvatarProvider avatarProvider;
+  Player({required this.avatarProvider}) : super(size: Vector2(100, 100));
 
   @override
   Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('dash.png' ,);
+    
+    sprite = await gameRef.loadSprite(avatarProvider.selectedAvatar);
+    print(AvatarProvider().selectedAvatar);
     position = Vector2(gameRef.size.x / 2, gameRef.size.y - 100);
     anchor = Anchor.center;
     add(RectangleHitbox());

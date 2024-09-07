@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
+
 
 class GameState extends ChangeNotifier {
   int _lives = 3;
@@ -81,6 +83,36 @@ class GameState extends ChangeNotifier {
   void resetGame() {
     _lives = 3;
     _currentScore = 0;
+    notifyListeners();
+  }
+}
+
+
+class AvatarProvider extends ChangeNotifier {
+  String _selectedAvatar = 'dash2.png';  // Default avatar
+
+  AvatarProvider() {
+    loadAvatar();
+  }
+
+  String get selectedAvatar => _selectedAvatar;
+
+  void setAvatar(String avatarFileName) {
+    if (_selectedAvatar != avatarFileName) {
+      _selectedAvatar = avatarFileName;
+      saveAvatar();
+      notifyListeners();
+    }
+  }
+
+  Future<void> saveAvatar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('avatar', _selectedAvatar);
+  }
+
+  Future<void> loadAvatar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _selectedAvatar = prefs.getString('avatar') ?? 'dash2.png';
     notifyListeners();
   }
 }

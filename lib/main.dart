@@ -6,13 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterdropdash/GameMenuScreens/MainGameMenu.dart';
 
-import 'package:waterdropdash/Screens/LoginScreen.dart';
-import 'package:waterdropdash/Screens/RegisterScreen.dart';
 import 'package:waterdropdash/Screens/SplashScreen.dart';
-import 'package:waterdropdash/Screens/onboardingScreen.dart';
 import 'package:waterdropdash/firebase_options.dart';
 import 'package:waterdropdash/provider/GameState.dart';
-import 'package:waterdropdash/provider/SaveScores.dart';
+
 import 'package:waterdropdash/provider/soundProvider.dart';
 
 void main() async{
@@ -25,6 +22,7 @@ void main() async{
       providers: [
         ChangeNotifierProvider(create: (context) => SoundProvider()),
         ChangeNotifierProvider(create: (context) => GameState()),
+        ChangeNotifierProvider(create: (context) => AvatarProvider()),
       ],
       
       child: const MyApp(),
@@ -69,7 +67,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return MaterialApp(
+      return const MaterialApp(
         home: Scaffold(
           body: Center(child: CircularProgressIndicator()),
         ),
@@ -83,7 +81,7 @@ class _MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: _userReachedMainGameMenu ? GameMenuScreen() : SplashScreen(),
+        home: _userReachedMainGameMenu ? GameMenuScreen() : const SplashScreen(),
         // home: LoginScreen(),
       );
     }

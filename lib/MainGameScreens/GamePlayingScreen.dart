@@ -1,6 +1,5 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:waterdropdash/MainGameScreens/RewardScreen.dart';
 import 'package:waterdropdash/MainGameScreens/MainGame.dart';
 import 'package:waterdropdash/provider/GameState.dart';
@@ -16,7 +15,7 @@ class Gameplayingscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GameWidget<DashGame>(
-        game: DashGame(currentLevel: currentLevel, waterBottleTarget: waterBottleTarget),
+        game: DashGame(currentLevel: currentLevel, waterBottleTarget: waterBottleTarget , avatarProvider: AvatarProvider()),
         overlayBuilderMap: {
           'gameOver': (context, game) => Center(
             child: Column(

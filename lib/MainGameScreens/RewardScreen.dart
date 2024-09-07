@@ -40,7 +40,7 @@ class RewardScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.blue),
                   ),
                   SizedBox(height: 20),
-                  Image.asset('assets/images/dash.png', height: 100),
+                  Image.asset('assets/images/dash1.png', height: 100),
                   SizedBox(height: 20),
                   Text(
                     'REWARD',
