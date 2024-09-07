@@ -32,6 +32,13 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
+    void decreaseMainGameScore(int amount) {
+    if (_mainGameScore >= amount) {
+      _mainGameScore -= amount;
+      notifyListeners();
+    }
+  }
+
   void setCurrentLevel(int level) {
     _currentlevel = level;
     notifyListeners();

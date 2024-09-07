@@ -14,7 +14,7 @@ class RewardScreen extends StatelessWidget {
   RewardScreen({required this.rewardAmount, this.badgeName = '', required this.game});
 
   bool _shouldAwardBadge() {
-    return _random.nextDouble() < 90; // 5% chance
+    return _random.nextDouble() < 0.5; // 5% chance
   }
 
   String _getRandomBadge() {

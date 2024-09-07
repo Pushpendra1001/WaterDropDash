@@ -82,7 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Text('Save'),
                     onPressed: () {
                       
-                      // Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -128,23 +128,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             });
                           },
                         ),
-                        SizedBox(height: 10),
-                        _buildSettingRow('SOUND', false, (value) {
-                          // TODO: Implement sound toggle functionality
-                        }),
+                    
                         SizedBox(height: 20),
-                        ElevatedButton(
-                          child: Text('LANGUAGE'),
-                          onPressed: () {
-                            // TODO: Implement language selection
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            minimumSize: Size(double.infinity, 40),
-                          ),
-                        ),
+                     
                       ],
                     ),
                   ),

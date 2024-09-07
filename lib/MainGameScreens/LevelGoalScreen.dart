@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:waterdropdash/GameMenuScreens/ProgressScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
 import 'package:waterdropdash/provider/GameState.dart';
@@ -45,7 +46,9 @@ class Levelgoalscreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Image.asset(("assets/TipS3.png"), height: 50,),
+                  InkWell(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProgressScreen(),)),
+                    child: Image.asset(("assets/TipS3.png"), height: 50,)),
                   Padding(
                     padding:  EdgeInsets.all(8.0),
                     child: Container(

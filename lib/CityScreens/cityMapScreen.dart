@@ -14,7 +14,7 @@ class CityMapScreen extends StatefulWidget {
 
 class _CityMapScreenState extends State<CityMapScreen> {
   List objects = [
-    {'shop': 'Building', 'image': 'assets/icons/building.png', 'price': 100},
+    {'shop': 'Building', 'image': 'assets/icons/building.png', 'price': 10},
     {'shop': 'Factory', 'image': 'assets/icons/factory.png', 'price': 200},
     {'shop': 'House', 'image': 'assets/icons/home.png', 'price': 300},
     {'shop': 'Water Tank', 'image': 'assets/icons/watertank.png', 'price': 400},
@@ -29,37 +29,44 @@ class _CityMapScreenState extends State<CityMapScreen> {
   bool isMoving = false;
 
   void _showPurchaseDialog(BuildContext context, Map<String, dynamic> object) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Purchase ${object['shop']}'),
-          content: Text('Do you want to buy this item for ${object['price']} coins?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  selectedItem = object;
-                  itemPosition = Offset(100, 100); // Initial position
-                  isMoving = true;
-                });
-                Navigator.of(context).pop(); // Close the dialog
-                _startTimer();
-              },
-              child: Text('Buy'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+    final gameState = Provider.of<GameState>(context, listen: false);
+    int currentScore = gameState.mainGameScore;
 
+    if (currentScore < object['price']) {
+      _showInsufficientFundsDialog(context);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Purchase ${object['shop']}'),
+            content: Text('Do you want to buy this item for ${object['price']} coins?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  gameState.decreaseMainGameScore(object['price']);
+                  setState(() {
+                    selectedItem = object;
+                    itemPosition = Offset(100, 100);
+                    isMoving = true;
+                  });
+                  Navigator.of(context).pop();
+                  _startTimer();
+                },
+                child: Text('Buy'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
   void _startTimer() {
     _timer?.cancel();
     _timer = Timer(Duration(seconds: 10), () {
@@ -270,6 +277,26 @@ class _CityMapScreenState extends State<CityMapScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showInsufficientFundsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Insufficient Funds'),
+          content: Text('You don\'t have enough coins to purchase this item.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 
