@@ -24,11 +24,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   ];
   final List<String> _WelcomeMMsg = [
     "Before you begin your journey, Let me tell you all about HYDROLAND and DROPPY your partner in this QUEST!",
-    "Levels and Challenges Navigate through various levels filled with unique obstacles and puzzles, using your quick thinking and agility to progress and unlock new stages",
-    "Collect and Score Gather water drops to keep Droppy energized and boost your score. Look out for special bonus items to enhance your gameplay experience.",
-    "Grow and Nurture Use collected points to grow a virtual tree, symbolizing Droppy's growth and health. Each completed level brings you closer to nurturing a thriving tree.",
-    "Health Monitoring Keep Droppy's health bar filled by collecting water drops. If Droppy's health depletes, it's game over, so ensure a steady flow of hydration.",
-    "Interactive Learning Learn about hydration and water conservation through engaging gameplay. Each level is designed to teach valuable lessons while keeping you entertained.",
+    "In the distant nation of HYDROLAND, an unprecedented drought plagued the land for a century, causing untold suffering and devastation",
+    "So the council members of the land met, to deliberate on this issue, and find a solution for their nation",
+    "“The HydroLand council appointed Droppy as the hero to embark on a mission to Beverage Land”",
+    "“The elders vested so much power on DROPPY, to enable him restore HydroLand to its former glory ”",
+    "Embark on this journey with DROPPY, and gather as many water droplets to revive HYDROLAND!",
   ];
 
   @override

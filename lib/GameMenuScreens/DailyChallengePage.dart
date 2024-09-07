@@ -28,26 +28,15 @@ class DailyChallengeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    child: Icon(Icons.arrow_back, color: Colors.white),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.brown,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 10,
-                          backgroundImage: AssetImage('assets/images/water.png'),
-                        ),
-                        SizedBox(width: 8),
-                      ],
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: CircleAvatar(
+                  backgroundColor: const Color(0xFF001C38),
+                     
+                      child: Icon(Icons.arrow_back, color: Colors.white),
                     ),
                   ),
+                 
                 ],
               ),
             ),
@@ -96,7 +85,7 @@ class DailyChallengeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
-                child: Text('Recommend'),
+                child: Text('Recommend' , style: TextStyle(color: Colors.white),),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -104,6 +93,8 @@ class DailyChallengeScreen extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF001C38),
+
                   minimumSize: Size(double.infinity, 50),
                 ),
               ),

@@ -13,27 +13,15 @@ class WaterTargetScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    child: Icon(Icons.arrow_back, color: Colors.white),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.brown,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 10,
-                          backgroundImage: AssetImage('assets/humanwaterintake.png'),
-                        ),
-                        SizedBox(width: 8),
-                        Text('300', style: TextStyle(color: Colors.white)),
-                      ],
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: CircleAvatar(
+                  backgroundColor: const Color(0xFF001C38),
+                      
+                      child: Icon(Icons.arrow_back, color: Colors.white),
                     ),
                   ),
+             
                 ],
               ),
             ),
@@ -68,13 +56,12 @@ class WaterTargetScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
-                child: Text('Drink Water'),
+                child: Text('Drink Water' , style: TextStyle(color: Colors.white),),
                 onPressed: () {
-                  
                   Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame()));
                 },
                 style: ElevatedButton.styleFrom(
-                  
+                  backgroundColor: const Color(0xFF001C38),
                   minimumSize: Size(double.infinity, 50),
                 ),
               ),
