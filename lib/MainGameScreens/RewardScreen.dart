@@ -65,7 +65,7 @@ class RewardScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 20),
                       child: Column(
                         children: [
-                          Image.asset('assets/achievedBadges/$awardedBadge.png', height: 200),
+                          Image.asset('assets/aabadges/$awardedBadge.png', height: 200),
                           Text('You earned a new badge!', style: TextStyle(fontSize: 18, color: Colors.green)),
                         ],
                       ),

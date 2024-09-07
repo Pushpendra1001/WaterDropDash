@@ -45,8 +45,8 @@ class BadgesScreen extends StatelessWidget {
                     children: [
                       Image.asset(
                         gameState.isBadgeUnlocked(badgeName)
-                          ? 'assets/Colorfullbades/$badgeName.png'
-                          : 'assets/noachievedBadges/$badgeName.png',
+                          ? "assets/aabadges/$badgeName.png"
+                          : "assets/nabadges/$badgeName.png",
                         height: 80,
                       ),
                       SizedBox(height: 8),
