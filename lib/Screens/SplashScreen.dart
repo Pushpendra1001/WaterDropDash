@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // Navigate to another screen after 3 seconds
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Onboardingscreen()), // Replace with your next screen
+        MaterialPageRoute(builder: (context) => CombinedOnboardingScreen()), // Replace with your next screen
       );
     });
   }

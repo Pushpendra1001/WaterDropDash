@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterdropdash/GameMenuScreens/MainGameMenu.dart';
-import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
+
 import 'package:waterdropdash/Screens/LoginScreen.dart';
 import 'package:waterdropdash/Screens/RegisterScreen.dart';
 import 'package:waterdropdash/Screens/SplashScreen.dart';

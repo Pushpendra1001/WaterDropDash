@@ -1,7 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:waterdropdash/GameMenuScreens/RewardScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:waterdropdash/MainGameScreens/RewardScreen.dart';
 import 'package:waterdropdash/MainGameScreens/MainGame.dart';
+import 'package:waterdropdash/provider/GameState.dart';
 
 
 class Gameplayingscreen extends StatelessWidget {
@@ -31,23 +33,10 @@ class Gameplayingscreen extends StatelessWidget {
               ],
             ),
           ),
-          'levelComplete': (context, game) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Level Complete!', style: TextStyle(fontSize: 48, color: Colors.white)),
-                ElevatedButton(
-                  child: Text('Next Level'),
-                  onPressed: () {
-                    // Implement level progression here
-                    game.overlays.remove('levelComplete');
-                    game.reset();
-                  },
-                ),
-              ],
-            ),
+              'levelComplete': (context, game) => Center(
+        
           ),
-          'rewardScreen': (context, game) => RewardScreen(game: game as DashGame, rewardAmount: 100,),
+          'rewardScreen': (context, game) => RewardScreen(game: game as DashGame, rewardAmount: waterBottleTarget, ),
         },
       )
     );

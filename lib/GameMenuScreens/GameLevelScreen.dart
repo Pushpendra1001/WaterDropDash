@@ -40,7 +40,7 @@ class GameLevelScreen extends StatelessWidget {
                       children: [
                         Image.asset("assets/images/water.png"),
                         Text("Score" , style: TextStyle(color: Colors.white),),
-                        Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
+                        Text('${gameState.mainGameScore}', style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ),
@@ -87,7 +87,7 @@ class GameLevelScreen extends StatelessWidget {
                 ),
                 itemCount: 15,
                 itemBuilder: (context, index) {
-                  bool isLocked = index >= 10;
+                  bool isLocked = index >= gameState.currentlevel;
                   return InkWell(
                     onTap: () {
                       if (isLocked) {

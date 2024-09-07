@@ -12,7 +12,7 @@ import 'package:waterdropdash/GameMenuScreens/ProgressScreen.dart';
 import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
 import 'package:waterdropdash/CityScreens/DashLandScreen.dart';
 import 'package:waterdropdash/MainGameScreens/GamePlayingScreen.dart';
-import 'package:waterdropdash/MainGameScreens/TreeScreen.dart';
+
 import 'package:waterdropdash/Screens/LeaderboardScreen.dart';
 import 'package:waterdropdash/TipsScreens/TipScreen.dart';
 import 'package:waterdropdash/provider/GameState.dart';
@@ -47,7 +47,7 @@ class GameMenuScreen extends StatelessWidget {
                       children: [
                         Image.asset("assets/images/water.png"),
                         Text("Score" , style: TextStyle(color: Colors.white),),
-                        Text('${gameState.highestScore}', style: TextStyle(color: Colors.white),)
+                        Text('${gameState.mainGameScore}', style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ),
