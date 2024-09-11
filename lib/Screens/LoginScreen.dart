@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waterdropdash/GameMenuScreens/MainGameMenu.dart';
 import 'package:waterdropdash/Screens/RegisterScreen.dart';
 import 'package:waterdropdash/WelcomeGameScreens/WelcomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,6 +34,26 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.message ?? "An error occurred")),
+      );
+    }
+  }
+
+  Future<void> _handleSkip() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+
+    if (isFirstLaunch) {
+      
+      await prefs.setBool('isFirstLaunch', false);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => WelcomeScreen()),
+      );
+    } else {
+      
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => GameMenuScreen()),
       );
     }
   }
@@ -101,7 +123,10 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 30),
               Center(child: Text("Play as Guest?", style: TextStyle(fontSize: 16, color: Colors.blue))),
               Center(child: InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomeScreen())),
+                onTap: (){
+                   _handleSkip();
+                   
+                },
                 child: Text("Skip", style: TextStyle(fontSize: 24, color: Colors.red)),
               )),
             ],

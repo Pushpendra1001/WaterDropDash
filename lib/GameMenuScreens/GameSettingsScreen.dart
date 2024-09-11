@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:waterdropdash/Screens/LoginScreen.dart';
 import 'package:waterdropdash/provider/GameState.dart';
 
 import 'package:waterdropdash/provider/avtarProvider.dart';
@@ -13,9 +15,11 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final List<String> avatars = List.generate(8, (index) => 'dash${index + 1}.png');
+   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
+  User? user = _auth.currentUser;
     return Scaffold(
       backgroundColor: Color(0xFF001C38),
       body: SafeArea(
@@ -130,7 +134,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                     
                         SizedBox(height: 20),
-                     
+                     user == null
+                      ? ElevatedButton(
+                          child: Text('Login'),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginScreen()),
+                            );
+                          },
+                        )
+                      : ElevatedButton(
+                          child: Text('Logout'),
+                          onPressed: () async {
+                            await _auth.signOut();
+                            setState(() {}); // Refresh the screen
+                          },
+                        ),
                       ],
                     ),
                   ),

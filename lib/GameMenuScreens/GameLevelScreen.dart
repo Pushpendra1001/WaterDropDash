@@ -15,7 +15,7 @@ class GameLevelScreen extends StatelessWidget {
     return Scaffold(
     
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/skbg.jpg'),
@@ -24,58 +24,55 @@ class GameLevelScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-           Padding(
-              padding:  EdgeInsets.all(8.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width/3,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.brown,
+                borderRadius: BorderRadius.circular(20)
+              ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width/3,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.brown,
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset("assets/images/water.png"),
-                        Text("Score" , style: TextStyle(color: Colors.white),),
-                        Text('${gameState.mainGameScore}', style: TextStyle(color: Colors.white),)
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProgressScreen(),)),
-                    child: Image.asset(("assets/TipS3.png"), height: 50,)),
-                  Padding(
-                    padding:  EdgeInsets.all(8.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width/ 3,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.brown,
-                        borderRadius: BorderRadius.circular(20)
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          InkWell(
-                             onTap : (){
-               Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
-            },
-                            child: Image.asset("assets/images/life.png")),
-                            Text("Lives" , style: TextStyle(color: Colors.white),),
-                          Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
-                        ],
-                      ),
-                    ),
-                  ),
-              
-                  
+                  Image.asset("assets/images/water.png"),
+                  Text("Score" , style: TextStyle(color: Colors.white),),
+                  Text('${gameState.currentlevel * 10}', style: TextStyle(color: Colors.white),)
                 ],
               ),
             ),
+            InkWell(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProgressScreen(),)),
+              child: Image.asset(("assets/TipS3.png"), height: 50,)),
+            Padding(
+              padding:  EdgeInsets.all(8.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width/ 3,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.brown,
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                       onTap : (){
+         Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame(),));
+                    },
+                      child: Image.asset("assets/images/life.png")),
+                      Text("Lives" , style: TextStyle(color: Colors.white),),
+                    Text('${gameState.lives}' , style: TextStyle(color: Colors.white),)
+                  ],
+                ),
+              ),
+            ),
+        
+            
+          ],
+        ),
          Text(
               "Select Level",
               style: TextStyle(fontSize: 40, color: Colors.white),

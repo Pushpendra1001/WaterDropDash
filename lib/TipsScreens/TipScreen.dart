@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waterdropdash/GameMenuScreens/MainGameMenu.dart';
 
 class TipScreen extends StatefulWidget {
@@ -36,20 +37,39 @@ class TipScreenState extends State<TipScreen> {
     ["Tip: Can’t wait to get started right?That is what this button is for.HIT IT!"],
      ];
 
+ @override
+  void initState() {
+    super.initState();
+    _checkIfSeen();
+  }
+
+  Future<void> _checkIfSeen() async {
+    final prefs = await SharedPreferences.getInstance();
+    final seen = prefs.getBool('seenTipScreen') ?? false;
+
+    if (seen) {
+      print(seen);
+      _navigateToNextScreen();
+    }
+  }
+
+  Future<void> _setSeenFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('seenTipScreen', true);
+  }
+
+  void _navigateToNextScreen() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => GameMenuScreen()),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Container(
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            shape: BoxShape.circle,
-          ),
-          child: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Icon(Icons.arrow_back_ios, color: Colors.white),
-          ),
-        ),
+       
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
@@ -116,7 +136,7 @@ class TipScreenState extends State<TipScreen> {
                                 _tipTexts[index].first,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 16.0,
+                                  fontSize: 10.0,
                                   color: Colors.black,
                                 ),
                               ),

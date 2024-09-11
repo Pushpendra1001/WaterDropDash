@@ -82,7 +82,7 @@ class RewardScreen extends StatelessWidget {
                 if (awardedBadge.isNotEmpty) {
                   gameState.unlockBadge(awardedBadge);
                 }
-                Navigator.push(context, MaterialPageRoute(builder: (context) => GameLevelScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GameLevelScreen()));
               },
               child: Text("Next Level"),
             )

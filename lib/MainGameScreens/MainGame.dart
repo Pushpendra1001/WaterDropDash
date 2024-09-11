@@ -33,6 +33,7 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
   double comboMultiplier = 1.0;
   double remainingTime = 30.0;
   final AvatarProvider avatarProvider;
+  late double baseTextSize;
 
   static const List<double> lanes = [-100, 0, 100];
 
@@ -62,6 +63,7 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+   baseTextSize = size.x * 0.04;
 
     background = await loadParallaxComponent(
       [ParallaxImageData('background.png')],
@@ -75,47 +77,70 @@ class DashGame extends FlameGame with TapDetector, HasCollisionDetection {
     player = Player(avatarProvider: avatarProvider);
     add(player);
 
-    scoreDisplay = TextComponent(
-      text: 'Score: 0',
-      position: Vector2(size.x - 50, 50),
+      scoreDisplay = createTextComponent(
+      'Score: 0',
+      Vector2(size.x * 0.95, size.y * 0.05),
       anchor: Anchor.topRight,
-      textRenderer: TextPaint(style: const TextStyle(color: Colors.white, fontSize: 24)),
+      fontSize: baseTextSize,
     );
-    add(scoreDisplay);
 
-    timerDisplay = TextComponent(
-      text: 'Time: 30.0',
-      position: Vector2(size.x / 2, 80),
+    timerDisplay = createTextComponent(
+      'Time: 30.0',
+      Vector2(size.x * 0.5, size.y * 0.05),
       anchor: Anchor.topCenter,
-      textRenderer: TextPaint(style: const TextStyle(color: Colors.white, fontSize: 24)),
+      fontSize: baseTextSize,
     );
-    add(timerDisplay);
 
-    taskDisplay = TextComponent(
-      text: 'Water: 0 / $waterBottleTarget',
-      position: Vector2(20, 50),
+    taskDisplay = createTextComponent(
+      'Water: 0 / $waterBottleTarget',
+      Vector2(size.x * 0.05, size.y * 0.05),
       anchor: Anchor.topLeft,
-      textRenderer: TextPaint(style: const TextStyle(color: Colors.white, fontSize: 24)),
+      fontSize: baseTextSize,
     );
-    add(taskDisplay);
 
-    livesDisplay = TextComponent(
-      text: 'Lives: 3',
-      position: Vector2(size.x / 2, 50),
-      anchor: Anchor.topCenter,
-      textRenderer: TextPaint(style: const TextStyle(color: Colors.white, fontSize: 24)),
+    livesDisplay = createTextComponent(
+      'Lives: 3',
+      Vector2(size.x * 0.05, size.y * 0.1),
+      anchor: Anchor.topLeft,
+      fontSize: baseTextSize,
     );
-    add(livesDisplay);
 
-    comboDisplay = TextComponent(
-      text: 'Combo: x1.0',
-      position: Vector2(size.x - 50, 80),
+    comboDisplay = createTextComponent(
+      'Combo: x1.0',
+      Vector2(size.x * 0.95, size.y * 0.1),
       anchor: Anchor.topRight,
-      textRenderer: TextPaint(style: const TextStyle(color: Colors.yellow, fontSize: 20)),
+      fontSize: baseTextSize * 0.8,
+      color: Colors.yellow,
     );
+
+    add(scoreDisplay);
+    add(timerDisplay);
+    add(taskDisplay);
+    add(livesDisplay);
     add(comboDisplay);
 
     _spawnItems();
+  }
+
+   TextComponent createTextComponent(
+    String text,
+    Vector2 position, {
+    Anchor anchor = Anchor.topLeft,
+    double fontSize = 24,
+    Color color = Colors.white,
+  }) {
+    return TextComponent(
+      text: text,
+      position: position,
+      anchor: anchor,
+      textRenderer: TextPaint(
+        style: TextStyle(
+          color: color,
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 
   // void _spawnItems() {
