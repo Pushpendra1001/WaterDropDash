@@ -39,7 +39,7 @@ class GameLevelScreen extends StatelessWidget {
                 children: [
                   Image.asset("assets/images/water.png"),
                   Text("Score" , style: TextStyle(color: Colors.white),),
-                  Text('${gameState.currentlevel * 10}', style: TextStyle(color: Colors.white),)
+                  Text('${gameState.mainGameScore}', style: TextStyle(color: Colors.white),)
                 ],
               ),
             ),
