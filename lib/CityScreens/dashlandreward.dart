@@ -80,9 +80,9 @@ class Dashlandreward extends StatelessWidget {
                 if (awardedBadge.isNotEmpty) {
                   gameState.unlockBadge(awardedBadge);
                 }
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GameLevelScreen()));
+                Navigator.pop(context);
               },
-              child: Text("Next Level"),
+              child: Text("Collect"),
             )
           ],
         ),

@@ -156,7 +156,7 @@ class _CityMapScreenState extends State<CityMapScreen> {
   }
 
   void _showRewardScreen(BuildContext context, Map<String, dynamic> option) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => Dashlandreward(
