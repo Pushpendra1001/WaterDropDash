@@ -1,9 +1,11 @@
-import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:waterdropdash/CityScreens/dashlandreward.dart';
 import 'package:waterdropdash/GameMenuScreens/ProgressScreen.dart';
+import 'package:waterdropdash/MainGameScreens/MainGame.dart';
+import 'package:waterdropdash/MainGameScreens/RewardScreen.dart';
 import 'package:waterdropdash/provider/GameState.dart';
+
 
 class CityMapScreen extends StatefulWidget {
   const CityMapScreen({Key? key}) : super(key: key);
@@ -13,46 +15,12 @@ class CityMapScreen extends StatefulWidget {
 }
 
 class _CityMapScreenState extends State<CityMapScreen> {
-  List<Map<String, dynamic>> restoreOptions = [];
-  late Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _startTimer();
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  void _startTimer() {
-    // Timer that triggers every 8 hours (28800000 milliseconds)
-    _timer = Timer.periodic(Duration(milliseconds: 28800000), (timer) {
-      _addRandomRestoreOption();
-    });
-  }
-
-  void _addRandomRestoreOption() {
-    if (restoreOptions.length < 5) { // Limit to 5 options at a time
-      final random = Random();
-      final newOption = {
-        'name': 'Water Restore ${restoreOptions.length + 1}',
-        'cost': random.nextInt(100) + 50, // Random cost between 50 and 149
-        'progress': 0,
-        'total': random.nextInt(20) + 10, // Random total between 10 and 29
-        'position': Offset(
-          random.nextDouble() * (MediaQuery.of(context).size.width - 100),
-          random.nextDouble() * (MediaQuery.of(context).size.height - 200) + 100,
-        ),
-      };
-      setState(() {
-        restoreOptions.add(newOption);
-      });
-    }
-  }
+  List<Map<String, dynamic>> restoreOptions = [
+    {'name': 'Mountain', 'cost': 10, 'progress': 0, 'total': 30, 'position': Offset(150, 150)},
+    {'name': 'Forest', 'cost': 10, 'progress': 0, 'total': 60, 'position': Offset(200, 300)},
+    {'name': 'City', 'cost': 10, 'progress': 0, 'total': 20, 'position': Offset(100, 500)},
+    {'name': 'Badulands', 'cost': 10, 'progress': 0, 'total': 120, 'position': Offset(250, 700)},
+  ];
 
   void _showRestoreDialog(BuildContext context, Map<String, dynamic> option) {
     final gameState = Provider.of<GameState>(context, listen: false);
@@ -60,7 +28,9 @@ class _CityMapScreenState extends State<CityMapScreen> {
 
     if (currentScore < option['cost']) {
       _showInsufficientFundsDialog(context);
-    } else {
+    } else if(option['progress'] == option['total']){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Dashlandreward(rewardAmount: 20,badgeName: '',),));
+    } else{
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -76,12 +46,10 @@ class _CityMapScreenState extends State<CityMapScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  gameState.decreaseMainGameScore(option['cost']);
+gameState.setScore((currentScore - option['cost']).toInt());
                   setState(() {
-                    option['progress']++;
-                    if (option['progress'] >= option['total']) {
-                      restoreOptions.remove(option);
-                    }
+                    option['progress'] = (option['progress'] + option['cost']).clamp(0, option['total']);
+                    gameState.decreaseMainGameScore(option['progress']);
                   });
                   Navigator.of(context).pop();
                 },
@@ -114,6 +82,25 @@ class _CityMapScreenState extends State<CityMapScreen> {
     );
   }
 
+  void _showAlreadyFill(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Already Restored'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
@@ -130,7 +117,7 @@ class _CityMapScreenState extends State<CityMapScreen> {
               ),
             ),
           ),
-          // App bar
+          // New app bar
           Positioned(
             top: 50,
             left: 20,
@@ -206,10 +193,10 @@ class _CityMapScreenState extends State<CityMapScreen> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.red,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text('Restore Water', style: TextStyle(color: Colors.white)),
+                      child: Text('Restore', style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
