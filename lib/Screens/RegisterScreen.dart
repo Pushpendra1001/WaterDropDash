@@ -23,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final List<String> ageOptions = ['18-25', '26-35', '36-45', '46-55', '56+'];
   final List<String> yesNoOptions = ['Yes', 'No'];
 
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
@@ -39,11 +40,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+        
+        'username': _usernameController.text,
         'email': _emailController.text,
         'age': selectedAge,
         'isPregnant': isPregnant,
         'Gender': selectedGender,
         'isBreastFeeding': isBreastFeeding,
+        'UserTotalScore': 0,
       });
 
       Navigator.pushReplacement(
@@ -70,6 +74,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 100,),
               Center(child: Text("Register", style: GoogleFonts.pottaOne(fontSize: 40))),
               if (!showAdditionalFields) ...[
+                Text("Username", style: TextStyle(fontSize: 24)),
+                SizedBox(height: 10),
+                TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    hintText: "Enter Your Username",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
                 Text("Email", style: TextStyle(fontSize: 24)),
                 SizedBox(height: 10),
                 TextField(

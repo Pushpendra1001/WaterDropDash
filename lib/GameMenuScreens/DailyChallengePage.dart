@@ -70,7 +70,7 @@ class DailyChallengeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,                      children: [
                         Center(child: Text('YOUR PROFILE', style: TextStyle(color: Colors.orange, fontSize: 26))),
-                        
+                        Text('Username: ${userData['username'] ?? 'N/A'}', style: TextStyle(fontSize: 20)),
                         Text('Gender: ${userData['Gender'] ?? 'N/A'}', style: TextStyle(fontSize: 20)),
                         Text('Age: ${userData['age'] ?? 'N/A'}', style: TextStyle(fontSize: 20)),
                         Text('Pregnant: ${userData['isPregnant'] ?? 'N/A'}', style: TextStyle(fontSize: 20)),

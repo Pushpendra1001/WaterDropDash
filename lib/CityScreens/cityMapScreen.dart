@@ -179,7 +179,7 @@ class _CityMapScreenState extends State<CityMapScreen> {
     });
     _saveRestoreOptions();
 
-    // Schedule the option to reappear after 12 hours
+    
     Timer(Duration(hours: 12), () {
       setState(() {
         option['progress'] = 0;
