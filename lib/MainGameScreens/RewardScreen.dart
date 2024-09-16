@@ -79,6 +79,8 @@ class RewardScreen extends StatelessWidget {
                   gameState.updatedCurrentLevel();
                 }
                 gameState.increaseMainGameScore(rewardAmount);
+                
+
                 if (awardedBadge.isNotEmpty) {
                   gameState.unlockBadge(awardedBadge);
                 }

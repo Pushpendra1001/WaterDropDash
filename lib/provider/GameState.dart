@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:waterdropdash/provider/preferences_service.dart';
 
 class GameState extends ChangeNotifier {
@@ -11,6 +12,7 @@ class GameState extends ChangeNotifier {
   Set<String> _unlockedBadges = {};
 
   final PreferencesService _preferencesService = PreferencesService();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   GameState() {
     _loadPreferences();
@@ -34,12 +36,14 @@ class GameState extends ChangeNotifier {
   void setMainGameScore(int score) {
     _mainGameScore = score;
     _preferencesService.saveMainGameScore(score);
+    _updateUserTotalScoreOnFirebase(score);
     notifyListeners();
   }
 
   void increaseMainGameScore(int amount) {
     _mainGameScore += amount;
     _preferencesService.saveMainGameScore(_mainGameScore);
+    _updateUserTotalScoreOnFirebase(_mainGameScore);
     notifyListeners();
   }
 
@@ -47,6 +51,7 @@ class GameState extends ChangeNotifier {
     if (_mainGameScore >= amount) {
       _mainGameScore -= amount;
       _preferencesService.saveMainGameScore(_mainGameScore);
+      // _updateUserTotalScoreOnFirebase(_mainGameScore);
       notifyListeners();
     }
   }
@@ -118,8 +123,28 @@ class GameState extends ChangeNotifier {
     _preferencesService.saveUnlockedBadges(_unlockedBadges);
     notifyListeners();
   }
-}
 
+ Future<void> _updateUserTotalScoreOnFirebase(int score) async {
+  try {
+    // Get the current authenticated user
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    // Ensure the user is not null
+    if (currentUser != null) {
+      String userId = currentUser.uid;
+
+      // Update the user's score in Firestore
+      await _firestore.collection('users').doc(userId).update({
+        'UserTotalScore': score + _mainGameScore,
+      });
+    } else {
+      print('Error: currentUser is null');
+    }
+  } catch (e) {
+    print('Error updating score on Firebase: $e');
+  }
+}
+}
 
 class AvatarProvider extends ChangeNotifier {
   String _selectedAvatar = 'dash2.png';  // Default avatar

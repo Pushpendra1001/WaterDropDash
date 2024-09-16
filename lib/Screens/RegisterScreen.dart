@@ -5,6 +5,7 @@ import 'package:waterdropdash/Screens/LoginScreen.dart';
 import 'package:waterdropdash/WelcomeGameScreens/WelcomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:waterdropdash/provider/preferences_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -32,34 +33,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> _register() async {
-    try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+  
+Future<void> _register() async {
+  try {
+    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
-      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-        
-        'username': _usernameController.text,
-        'email': _emailController.text,
-        'age': selectedAge,
-        'isPregnant': isPregnant,
-        'Gender': selectedGender,
-        'isBreastFeeding': isBreastFeeding,
-        'UserTotalScore': 0,
-      });
+    // Save userId to SharedPreferences
+    String userId = userCredential.user!.uid;
+    final preferencesService = PreferencesService();
+    await preferencesService.saveUserId(userId);
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => WelcomeScreen()),
-      );
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? "An error occurred")),
-      );
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    // Ensure the user is not null
+    if (currentUser != null) {
+      String userId = currentUser.uid;
+    
+
+    // Save user data to Firestore
+    await FirebaseFirestore.instance.collection('users').doc(userId).set({
+      'username': _usernameController.text,
+      'email': _emailController.text,
+      'age': selectedAge,
+      'isPregnant': isPregnant,
+      'Gender': selectedGender,
+      'isBreastFeeding': isBreastFeeding,
+      'UserTotalScore': 0,
+    });
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+    );
     }
+  } on FirebaseAuthException catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(e.message ?? "An error occurred")),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
