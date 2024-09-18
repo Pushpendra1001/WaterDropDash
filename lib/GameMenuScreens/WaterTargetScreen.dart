@@ -47,13 +47,21 @@ class _WaterTargetScreenState extends State<WaterTargetScreen> {
                 ],
               ),
             ),
+            Consumer<GameState>(
+              builder: (context, gameState, child) {
+                return Text(
+                  '${gameState.waterConsumed.toStringAsFixed(1)} L',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                );
+              },
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('0.0 L', style: TextStyle(color: Colors.red)),
-                  Text('1.5 L', style: TextStyle(color: Colors.green)),
+                  Text('2.5 L', style: TextStyle(color: Colors.green)),
                 ],
               ),
             ),
@@ -62,7 +70,7 @@ class _WaterTargetScreenState extends State<WaterTargetScreen> {
               child: Consumer<GameState>(
                 builder: (context, gameState, child) {
                   return LinearProgressIndicator(
-                    value: gameState.waterConsumed / 1.5, // Progress value between 0.0 and 1.0
+                    value: gameState.waterConsumed / 2.5, // Progress value between 0.0 and 1.0
                     backgroundColor: Colors.grey[300],
                     color: Colors.blue,
                     minHeight: 10,
