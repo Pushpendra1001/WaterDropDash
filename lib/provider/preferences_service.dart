@@ -11,6 +11,16 @@ class PreferencesService {
     return prefs.getInt('mainGameScore') ?? 0;
   }
 
+  Future<void> saveWaterConsumed(double waterConsumed) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setDouble('waterConsumed', waterConsumed);
+}
+
+Future<double> getWaterConsumed() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getDouble('waterConsumed') ?? 0.0;
+}
+
   Future<void> saveScore(int score) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('currentScore', score);

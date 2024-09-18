@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:waterdropdash/GameMenuScreens/ScannerScreen.dart';
+import 'package:waterdropdash/provider/GameState.dart';
 
-class WaterTargetScreen extends StatelessWidget {
+class WaterTargetScreen extends StatefulWidget {
+  @override
+  _WaterTargetScreenState createState() => _WaterTargetScreenState();
+}
+
+class _WaterTargetScreenState extends State<WaterTargetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,12 +23,10 @@ class WaterTargetScreen extends StatelessWidget {
                   InkWell(
                     onTap: () => Navigator.pop(context),
                     child: CircleAvatar(
-                  backgroundColor: const Color(0xFF001C38),
-                      
+                      backgroundColor: const Color(0xFF001C38),
                       child: Icon(Icons.arrow_back, color: Colors.white),
                     ),
                   ),
-             
                 ],
               ),
             ),
@@ -39,7 +44,6 @@ class WaterTargetScreen extends StatelessWidget {
                     color: Colors.blue.withOpacity(0.1),
                     colorBlendMode: BlendMode.srcATop,
                   ),
-               
                 ],
               ),
             ),
@@ -54,11 +58,31 @@ class WaterTargetScreen extends StatelessWidget {
               ),
             ),
             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Consumer<GameState>(
+                builder: (context, gameState, child) {
+                  return LinearProgressIndicator(
+                    value: gameState.waterConsumed / 1.5, // Progress value between 0.0 and 1.0
+                    backgroundColor: Colors.grey[300],
+                    color: Colors.blue,
+                    minHeight: 10,
+                  );
+                },
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
-                child: Text('Drink Water' , style: TextStyle(color: Colors.white),),
+                child: Text(
+                  'Drink Water',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => BottleScannerGame()));
+                  // Simulate drinking water by adding 0.1L
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottleScannerGame()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF001C38),

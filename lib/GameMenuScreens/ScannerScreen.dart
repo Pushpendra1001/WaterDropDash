@@ -70,6 +70,7 @@ class _BottleScannerGameState extends State<BottleScannerGame> {
         String detectedBottle = result.keys.first;
         _result = 'Detected: $detectedBottle\nConfidence: ${(result[detectedBottle]! * 100).toStringAsFixed(2)}%';
         if (newLives > 0) {
+          Provider.of<GameState>(context, listen: false).increaseWaterConsumed(0.1);
           _result += '\nYou earned $newLives lives!';
         } else {
           _result += '\nNo lives earned.';
@@ -151,9 +152,9 @@ int _calculateLives(Map<String, double> result) {
     case 'Wine Bottle':
       return 0;
     case 'Soda Bottle':
-      return 1;
+      return 0;
     case 'Plastic Bottles':
-      return Random().nextInt(2) + 2; 
+      return 0; 
     case 'Water Bottle':
       return Random().nextInt(3) + 4; 
     default:

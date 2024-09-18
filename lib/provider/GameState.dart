@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +11,7 @@ class GameState extends ChangeNotifier {
   int _currentScore = 100;
   int _mainGameScore = 0;
   int _currentlevel = 1;
+  double _waterConsumed = 0.0; // Initial water consumed
   Set<String> _unlockedBadges = {};
 
   final PreferencesService _preferencesService = PreferencesService();
@@ -16,11 +19,13 @@ class GameState extends ChangeNotifier {
 
   GameState() {
     _loadPreferences();
+     _scheduleDailyReset();
   }
 
   int get lives => _lives;
   int get currentScore => _currentScore;
   int get mainGameScore => _mainGameScore;
+  double get waterConsumed => _waterConsumed;
   int get currentlevel => _currentlevel;
   Set<String> get unlockedBadges => _unlockedBadges;
 
@@ -30,8 +35,28 @@ class GameState extends ChangeNotifier {
     _mainGameScore = await _preferencesService.getMainGameScore();
     _currentlevel = await _preferencesService.getCurrentLevel();
     _unlockedBadges = await _preferencesService.getUnlockedBadges();
+     _waterConsumed = await _preferencesService.getWaterConsumed();
     notifyListeners();
   }
+
+  void resetWaterConsumed() {
+  _waterConsumed = 0.0;
+  _preferencesService.saveWaterConsumed(_waterConsumed);
+  notifyListeners();
+}
+
+
+void _scheduleDailyReset() {
+  final now = DateTime.now();
+  final nextMidnight = DateTime(now.year, now.month, now.day + 1);
+  final durationUntilMidnight = nextMidnight.difference(now);
+
+  Timer(durationUntilMidnight, () {
+    resetWaterConsumed();
+    _scheduleDailyReset(); // Reschedule the reset for the next day
+  });
+}
+
 
   void setMainGameScore(int score) {
     _mainGameScore = score;
@@ -39,6 +64,17 @@ class GameState extends ChangeNotifier {
     _updateUserTotalScoreOnFirebase(score);
     notifyListeners();
   }
+
+  void increaseWaterConsumed(double amount) {
+  _waterConsumed += amount;
+  if (_waterConsumed > 1.5) {
+    _waterConsumed = 1.5; // Cap the water consumed at 1.5L
+  }
+  _preferencesService.saveWaterConsumed(_waterConsumed);
+  notifyListeners();
+}
+
+
 
   void increaseMainGameScore(int amount) {
     _mainGameScore += amount;
