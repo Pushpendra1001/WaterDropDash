@@ -68,7 +68,14 @@ class _BottleScannerGameState extends State<BottleScannerGame> {
         _result = 'Invalid image or low confidence detection.';
       } else {
         String detectedBottle = result.keys.first;
+        if(detectedBottle == 'Plastic Bottles'){
+        String output = '${detectedBottle}';
+        output = "Water Bottle";
+        _result = 'Detected: $output\nConfidence: ${(result[detectedBottle]! * 100).toStringAsFixed(2)}%';
+        }
+        else{
         _result = 'Detected: $detectedBottle\nConfidence: ${(result[detectedBottle]! * 100).toStringAsFixed(2)}%';
+        }
         if (newLives > 0) {
           Provider.of<GameState>(context, listen: false).increaseWaterConsumed(0.1);
           _result += '\nYou earned $newLives lives!';
@@ -154,7 +161,7 @@ int _calculateLives(Map<String, double> result) {
     case 'Soda Bottle':
       return 0;
     case 'Plastic Bottles':
-      return 0; 
+      return Random().nextInt(3) + 4; 
     case 'Water Bottle':
       return Random().nextInt(3) + 4; 
     default:
