@@ -1,13 +1,51 @@
 {
   "project_info": {
-    "project_number": "185945359703",
-    "project_id": "waterdropdash",
-    "storage_bucket": "waterdropdash.appspot.com"
+    "project_number": "665460987127",
+    "project_id": "waterdropdash-d9c96",
+    "storage_bucket": "waterdropdash-d9c96.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:185945359703:android:6bb256293c72e437faaa12",
+        "mobilesdk_app_id": "1:665460987127:android:84041d93a8457b061aeff2",
+        "android_client_info": {
+          "package_name": "com.example.dropdash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZt9w6Bvx7w3ZCW1P0RSvSHs7S1KfJKuo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665460987127:android:7e10a04bbebc40b41aeff2",
+        "android_client_info": {
+          "package_name": "com.example.water"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZt9w6Bvx7w3ZCW1P0RSvSHs7S1KfJKuo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665460987127:android:ec363eed5bd1efa71aeff2",
         "android_client_info": {
           "package_name": "com.example.waterdropdash"
         }
@@ -15,7 +53,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCUq5Y931nuCnkVPsw08u2ZMTnRoXfl6Fo"
+          "current_key": "AIzaSyCZt9w6Bvx7w3ZCW1P0RSvSHs7S1KfJKuo"
         }
       ],
       "services": {

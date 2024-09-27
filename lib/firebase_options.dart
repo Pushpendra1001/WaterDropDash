@@ -41,46 +41,47 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCTAB1IaX7Cr_OziBMaVoHglc7ioBaTfJQ',
-    appId: '1:185945359703:web:b05addcadb378e2dfaaa12',
-    messagingSenderId: '185945359703',
-    projectId: 'waterdropdash',
-    authDomain: 'waterdropdash.firebaseapp.com',
-    storageBucket: 'waterdropdash.appspot.com',
+    apiKey: 'AIzaSyCapoJv4m0PRYVwaOXUimkf7nU-MqDjOFo',
+    appId: '1:665460987127:web:274768292a9183181aeff2',
+    messagingSenderId: '665460987127',
+    projectId: 'waterdropdash-d9c96',
+    authDomain: 'waterdropdash-d9c96.firebaseapp.com',
+    storageBucket: 'waterdropdash-d9c96.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCUq5Y931nuCnkVPsw08u2ZMTnRoXfl6Fo',
-    appId: '1:185945359703:android:6bb256293c72e437faaa12',
-    messagingSenderId: '185945359703',
-    projectId: 'waterdropdash',
-    storageBucket: 'waterdropdash.appspot.com',
+    apiKey: 'AIzaSyCZt9w6Bvx7w3ZCW1P0RSvSHs7S1KfJKuo',
+    appId: '1:665460987127:android:ec363eed5bd1efa71aeff2',
+    messagingSenderId: '665460987127',
+    projectId: 'waterdropdash-d9c96',
+    storageBucket: 'waterdropdash-d9c96.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBbkwSh-RTsxuj5osJZNV6hbDBW5MpIaIo',
-    appId: '1:185945359703:ios:c1c66927f0d773d4faaa12',
-    messagingSenderId: '185945359703',
-    projectId: 'waterdropdash',
-    storageBucket: 'waterdropdash.appspot.com',
+    apiKey: 'AIzaSyB-PMKZpr2G6V_2mtwUsstROgHlLR9uvBk',
+    appId: '1:665460987127:ios:cd255541d86c641f1aeff2',
+    messagingSenderId: '665460987127',
+    projectId: 'waterdropdash-d9c96',
+    storageBucket: 'waterdropdash-d9c96.appspot.com',
     iosBundleId: 'com.example.waterdropdash',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBbkwSh-RTsxuj5osJZNV6hbDBW5MpIaIo',
-    appId: '1:185945359703:ios:c1c66927f0d773d4faaa12',
-    messagingSenderId: '185945359703',
-    projectId: 'waterdropdash',
-    storageBucket: 'waterdropdash.appspot.com',
+    apiKey: 'AIzaSyB-PMKZpr2G6V_2mtwUsstROgHlLR9uvBk',
+    appId: '1:665460987127:ios:cd255541d86c641f1aeff2',
+    messagingSenderId: '665460987127',
+    projectId: 'waterdropdash-d9c96',
+    storageBucket: 'waterdropdash-d9c96.appspot.com',
     iosBundleId: 'com.example.waterdropdash',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCTAB1IaX7Cr_OziBMaVoHglc7ioBaTfJQ',
-    appId: '1:185945359703:web:21387e4b5fd33431faaa12',
-    messagingSenderId: '185945359703',
-    projectId: 'waterdropdash',
-    authDomain: 'waterdropdash.firebaseapp.com',
-    storageBucket: 'waterdropdash.appspot.com',
+    apiKey: 'AIzaSyCapoJv4m0PRYVwaOXUimkf7nU-MqDjOFo',
+    appId: '1:665460987127:web:6c38390b2ebc536a1aeff2',
+    messagingSenderId: '665460987127',
+    projectId: 'waterdropdash-d9c96',
+    authDomain: 'waterdropdash-d9c96.firebaseapp.com',
+    storageBucket: 'waterdropdash-d9c96.appspot.com',
   );
+
 }
